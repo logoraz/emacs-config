@@ -60,15 +60,15 @@
 (use-package nerd-icons
   :ensure t
   :config
-    ;; Set "lisp" extensions/lisp-mode to Common Lisp Icon, instead of Scheme Icon...
+  ;; Set "lisp" extensions/lisp-mode to Common Lisp Icon, instead of Scheme Icon...
   (add-to-list 'nerd-icons-extension-icon-alist
-               '("lisp" nerd-icons-sucicon "nf-custom-common_lisp" :face nerd-icons-silver))
+               '("lisp" nerd-icons-mdicon "nf-md-yin_yang" :face nerd-icons-silver))
 
   (add-to-list 'nerd-icons-extension-icon-alist
-               '("asd" nerd-icons-sucicon "nf-custom-common_lisp" :face nerd-icons-silver))
-  
+               '("asd" nerd-icons-mdicon "nf-md-yin_yang" :face nerd-icons-silver))
+
   (add-to-list 'nerd-icons-mode-icon-alist
-               '(lisp-mode nerd-icons-sucicon "nf-custom-common_lisp" :face nerd-icons-silver)))
+               '(lisp-mode nerd-icons-mdicon "nf-md-yin_yang" :face nerd-icons-silver)))
 
 (use-package doom-modeline
   :ensure t
