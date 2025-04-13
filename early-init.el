@@ -6,7 +6,7 @@
 
 ;; Code:
 
-
+
 ;;
 ;; PATHs, Environment & Configuration Variables
 ;;
@@ -14,21 +14,10 @@
 ;; Set the `user-emacs-directory` to a writeable path
 (setq user-emacs-directory "~/.cache/emacs")
 
-;; Set GUIX packages to Emacs Load Path
-;; (defvar raz/guix-emacs-packages-path
-;;   (expand-file-name "~/.guix-home/profile/share/emacs/site-lisp/")
-;;   "Guix Home Profile Emacs Packages PATH.")
-
-;; (when (eq system-type 'gnu/linux)
-;;   ;; Set some guix specific configurations...
-;;   (load (concat raz/guix-emacs-packages-path "subdirs.el") :no-error :no-message)
-;;   (add-to-list 'load-path raz/guix-emacs-packages-path))
-
 ;; Variables/Functions defining configuration
 (defvar *raz/load-custom-file* nil
   "When non-nil, load `custome.el' after user's config file, `config.el'.")
 
-
 ;;
 ;; Compilation Settings
 ;;
@@ -49,7 +38,6 @@
      (convert-standard-filename
       (expand-file-name "var/eln-cache/" user-emacs-directory)))))
 
-
 ;;
 ;; Performance Optimizations/Tweaks
 ;;
@@ -102,7 +90,6 @@
             (setq gc-cons-threshold raz/gc-cons-threshold
                   vc-handled-backends raz/vc-handled-backends)))
 
-
 ;;
 ;; Set Frame Parameters & UI/UX Configuration Variables
 ;;
@@ -121,8 +108,8 @@
 
 (setq raz/custom-frame-alist
       '((alpha-background . 90)
-        ;; (alpha . (90 . 85))
-        (use-frame-synchronization . t)))
+        (use-frame-synchronization . t)
+        (fullscreen . maximized)))
 
 (setq initial-frame-alist
       (append
