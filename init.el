@@ -59,14 +59,13 @@
 
 ;; Load Modules
 ;; Macros/Helper functions
-(message "Here in init.el before requiring modules")
 (require 'raz-subrx)
 ;; Base + IDE
 (require 'raz-base-core)
 (require 'raz-base-ext)
 (require 'raz-completions-mct)
 (require 'raz-lisp-ide)
-(require 'raz-guile-ide)
+;;(require 'raz-guile-ide)
 ;; Notes/Office/Mail/Chat
 (require 'raz-denote)
 (require 'raz-org)

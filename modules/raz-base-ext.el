@@ -163,7 +163,5 @@
   :ensure t
   :bind ("M-o" . 'ace-window))
 
-
-
 
 (provide 'raz-base-ext)
