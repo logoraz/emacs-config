@@ -1,12 +1,16 @@
-;;;; raz-base-ext.el --- Base Config/Defaults -*- lexical-binding: t -*-
+;;;; raz-base-ext.el --- External Core RazEmacs, -*- lexical-binding: t; -*-
+
+;;; Commentary:
 
 ;;; Author: Erik P. Almaraz
 
-;;; Commentary/References:
+;;; References:
 ;;; Core features of my configuration provided from external
 ;;; packages, i.e. obtained via Guix or Melpa
 
 ;;; Code:
+
+(defvar *ensure* t)
 
 ;;; Configure package PATH's
 (use-package no-littering
@@ -56,6 +60,8 @@
 ;; (add-to-list 'custom-theme-load-path (expand-file-name "~/.config/emacs/themes/"))
 ;; (load-theme 'kanagawa t)
 ;; https://github.com/tinted-theming/base16-emacs
+(use-package all-the-icons
+  :ensure t)
 
 (use-package nerd-icons
   :ensure t
@@ -84,6 +90,9 @@
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
   ;; (load-theme 'doom-one t)
   (load-theme 'doom-tomorrow-night t)
+
+  ;; Enable custom neotree theme (nerd-icons must be installed!)
+  ;; (doom-themes-neotree-config)
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
@@ -163,5 +172,12 @@
   :ensure t
   :bind ("M-o" . 'ace-window))
 
+(use-package flycheck
+  :ensure t
+  :diminish
+  :init (global-flycheck-mode))
+
+
 
 (provide 'raz-base-ext)
+;;; raz-base-ext.el ends here
