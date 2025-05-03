@@ -1,8 +1,8 @@
-;; raz-lisp-ide.el --- Lisp IDE via SLY -*- lexical-binding: t -*-
+;;; raz-lisp-ide --- Common Lisp IDE for RazEmacs, -*- lexical-binding: t; -*-
 
 ;; Author: Erik P. Almaraz
 
-;; Commentary:
+;;; Commentary:
 ;;
 
 ;; References
@@ -12,7 +12,7 @@
 ;; TODO:
 ;;   1. Setup/Configure Nyxt extension
 ;;   2. Setup/Configure stumpwm-mode extension
-;;   3. Look into:  M-. -> runs the command sly-edit-definition (found in sly-mode-map),
+;;   3. Look into:  `M-.' -> runs the command sly-edit-definition (found in sly-mode-map),
 ;;      which is an interactive native-compiled Lisp function in ‘sly.el’.
 
 
@@ -21,7 +21,8 @@
 (use-package sly
   :ensure t
   ;; Enable sly IDE for Common Lisp
-  :hook ((lisp-mode . sly-editing-mode))
+  :hook ((lisp-mode . sly-editing-mode)
+         (lisp-mode . raz/sly-auto-connect))
   ;; :custom
   ;; (inferior-lisp-program (executable-find "sbcl")
   ;;                        "Set default lisp to Steel Bank Common Lisp.")
@@ -55,8 +56,32 @@
   ;; See: https://joaotavora.github.io/sly/#Loading-Slynk-faster
   (defun raz/sly-auto-connect ()
     (interactive)
+    (setq sly-contribs '(sly-scratch sly-mrepl sly-fancy))
     (unless (sly-connected-p)
       (save-excursion (sly)))))
+
+;; Neotree for Lem-like lisp IDE
+(use-package neotree
+  :ensure t
+  :config
+  (setq neo-smart-open t
+        neo-show-hidden-files t
+        neo-window-width 35
+        neo-mode-line-type 'none
+        neo-window-fixed-size nil
+        inhibit-compacting-font-caches t)
+
+  (setq neo-theme (if (display-graphic-p) 'nerd-icons 'arrow))
+
+
+  ;; truncate long file names in neotree
+  (add-hook 'neo-after-create-hook
+            #'(lambda (_)
+                (with-current-buffer (get-buffer neo-buffer-name)
+                  (setq truncate-lines t)
+                  (setq word-wrap nil)
+                  (make-local-variable 'auto-hscroll-mode)
+                  (setq auto-hscroll-mode nil)))))
 
 ;; Terminals to access tools like ocicl
 (use-package vterm
