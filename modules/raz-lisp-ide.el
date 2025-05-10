@@ -21,11 +21,10 @@
 (use-package sly
   :ensure t
   ;; Enable sly IDE for Common Lisp
-  :hook ((lisp-mode . sly-editing-mode)
-         (lisp-mode . raz/sly-auto-connect))
-  ;; :custom
-  ;; (inferior-lisp-program (executable-find "sbcl")
-  ;;                        "Set default lisp to Steel Bank Common Lisp.")
+  :hook ((lisp-mode . sly-editing-mode))
+  :custom
+  (inferior-lisp-program (executable-find "sbcl")
+                         "Set default lisp to Steel Bank Common Lisp.")
   :config
   ;; Invoke SLY with a negative prefix argument, M-- M-x sly,
   ;; and you can select a program from that list.
@@ -35,28 +34,19 @@
           (ecl (,(executable-find "ecl")))
           (ccl (,(executable-find "ccl")))))
 
-  (defun raz/stumpwm-sly-connect ()
-    "Auto connect to StumpWM slynk session -> port 4005."
-    (interactive)
-    ;;FIXME -> query if nyxt-slynk is running or has been started (unless ...)
-    (save-excursion (sly-connect "localhost" 4005)))
+  (defvar raz/sly-saved-win-config nil)
 
-  (defun raz/nyxt-sly-connect ()
-    "Auto connect to Nyxt slynk session, start via start-slynk Nyxt command -> port 4006."
-    (interactive)
-    ;;FIXME -> query if nyxt-slynk is running or has been started (unless ...)
-    (save-excursion (sly-connect "localhost" 4006)))
+  (defun raz/sly-save-window-configuration ()
+    (setq raz/sly-saved-win-config (current-window-configuration)))
 
-  (defun raz/chemscribe-sly-connect ()
-    "Auto connect to Nyxt slynk session, start via start-slynk Nyxt command -> port 4006."
-    (interactive)
-    ;;FIXME -> query if nyxt-slynk is running or has been started (unless ...)
-    (save-excursion (sly-connect "localhost" 4008)))
+  (defun raz/restore-window-configuration ()
+    (set-window-configuration raz/sly-saved-win-config))
 
   ;; See: https://joaotavora.github.io/sly/#Loading-Slynk-faster
+  ;; to be passed to `:hook' as `(lisp-mode . raz/sly-auto-connect)'
   (defun raz/sly-auto-connect ()
     (interactive)
-    (setq sly-contribs '(sly-scratch sly-mrepl sly-fancy))
+    ;; (setq sly-contribs '(sly-scratch sly-mrepl sly-fancy))
     (unless (sly-connected-p)
       (save-excursion (sly)))))
 
