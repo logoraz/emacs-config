@@ -90,13 +90,12 @@
 (column-number-mode 1)
 
 (use-package display-line-numbers
-  :hook (lisp-mode . display-line-numbers-mode))
+  :hook ((lisp-mode emacs-lisp-mode) . display-line-numbers-mode))
 
 (use-package display-fill-column-indicator
   ;; TODO: Customize theme color for this element -> via ':config' keyword
   :diminish
-  ;; Only activate for lisp-mode
-  :hook (lisp-mode . display-fill-column-indicator-mode)
+  :hook ((lisp-mode emacs-lisp-mode) . display-fill-column-indicator-mode)
   :custom
   (fill-column 80)
   (display-fill-column-indicator-column fill-column)

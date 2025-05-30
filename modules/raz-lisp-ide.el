@@ -26,13 +26,18 @@
   (inferior-lisp-program (executable-find "sbcl")
                          "Set default lisp to Steel Bank Common Lisp.")
   :config
+  ;;Start the REPL by issuing M-- M-x sly RET nyxt RET and evaluate:
+  (defvar *nyxt-env* (concat "Cl_SOURCE_REGISTRY=~/.local/share/common-lisp/custom//"
+                             ":~/.local/share/common-lisp/custom/nyxt/_build//")
+    "Setup environment to run Nyxt's CL system from SLY")
+
   ;; Invoke SLY with a negative prefix argument, M-- M-x sly,
   ;; and you can select a program from that list.
   (setq sly-lisp-implementations
         `((sbcl (,(executable-find "sbcl")))
-          (clasp (,(executable-find "clasp")))
-          (ecl (,(executable-find "ecl")))
-          (ccl (,(executable-find "ccl")))))
+          ;; (clasp (,(executable-find "clasp")))
+          (nyxt ("sbcl" "--dynamic-space-size 3072")
+                :env (,*nyxt-env*))))
 
   (defvar raz/sly-saved-win-config nil)
 
