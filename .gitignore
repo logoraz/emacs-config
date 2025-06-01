@@ -4,9 +4,11 @@
 
 ## Extensions
 /elisp/flycheck*
+/elisp/ocicl*
 
 ## Modules
 /modules/flycheck*
+/modules/ocicl*
 
 ## Docs
 /docs/flycheck*
