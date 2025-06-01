@@ -175,7 +175,9 @@
 (use-package flycheck
   :ensure t
   :diminish
-  :init (global-flycheck-mode))
+  :init (global-flycheck-mode)
+  :custom
+  (flycheck-checker-error-threshold 2000 "Increase error threshold."))
 
 
 

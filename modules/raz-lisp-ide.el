@@ -22,35 +22,37 @@
   :ensure t
   ;; Enable sly IDE for Common Lisp
   :hook ((lisp-mode . sly-editing-mode))
+
   :custom
   (inferior-lisp-program (executable-find "sbcl")
                          "Set default lisp to Steel Bank Common Lisp.")
   :config
   ;;Start the REPL by issuing M-- M-x sly RET nyxt RET and evaluate:
-  (defvar *nyxt-env* (concat "Cl_SOURCE_REGISTRY=~/.local/share/common-lisp/custom//"
-                             ":~/.local/share/common-lisp/custom/nyxt/_build//")
+  ;; (asdf:load-system :nyxt/gi-gtk)
+  ;; (nyxt:start)
+  ;; TODO: determine how to start w/o loading config for this...
+  (defvar *nyxt-env* (concat "CL_SOURCE_REGISTRY=~/.local/share/common-lisp/src//"
+                             ":~/.local/share/common-lisp/src/nyxt/_build//")
     "Setup environment to run Nyxt's CL system from SLY")
 
   ;; Invoke SLY with a negative prefix argument, M-- M-x sly,
   ;; and you can select a program from that list.
   (setq sly-lisp-implementations
         `((sbcl (,(executable-find "sbcl")))
-          ;; (clasp (,(executable-find "clasp")))
+          (clasp (,(executable-find "clasp")))
           (nyxt ("sbcl" "--dynamic-space-size 3072")
                 :env (,*nyxt-env*))))
 
-  (defvar raz/sly-saved-win-config nil)
-
-  (defun raz/sly-save-window-configuration ()
-    (setq raz/sly-saved-win-config (current-window-configuration)))
-
-  (defun raz/restore-window-configuration ()
-    (set-window-configuration raz/sly-saved-win-config))
+  (defun raz/nyxt-sly-connect ()
+    "Connect to Nyxt slynk session, start via M-x start-slynk -> port 4005."
+    (interactive)
+    ;;FIXME -> query if nyxt-slynk is running or has been started (unless ...)
+    (save-excursion (sly-connect "localhost" 4005)))
 
   ;; See: https://joaotavora.github.io/sly/#Loading-Slynk-faster
   ;; to be passed to `:hook' as `(lisp-mode . raz/sly-auto-connect)'
   (defun raz/sly-auto-connect ()
-    (interactive)
+    ;; (interactive)
     ;; (setq sly-contribs '(sly-scratch sly-mrepl sly-fancy))
     (unless (sly-connected-p)
       (save-excursion (sly)))))
