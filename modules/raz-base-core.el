@@ -125,11 +125,12 @@
   :after dired)
 
 (use-package ediff
-  :defer t
+  ;; :defer t
   :custom
   (ediff-split-window-function 'split-window-horizontally)
   (ediff-window-setup-function 'ediff-setup-windows-plain)
-  :config
+  :init
+  ;; Has to be set in `use-package' `:init' form to work.
   ;; Save & Restore Window configuration
   ;; https://www.emacswiki.org/emacs/EdiffMode
   (add-hook
@@ -149,8 +150,12 @@
                  restore-window-configuration
                  'append)))))
 
+(use-package poroject
+  :disabled
+  ;; configure projectile
+  )
 
-
+
 
 
 (provide 'raz-base-core)
