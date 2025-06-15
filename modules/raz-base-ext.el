@@ -84,6 +84,7 @@
 
 (use-package doom-themes
   :ensure t
+  :bind ("C-c d" . #'neotree)
   :config
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t      ; if nil, bold is universally disabled
