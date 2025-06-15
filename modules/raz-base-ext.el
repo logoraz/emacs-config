@@ -176,8 +176,8 @@
   :bind-keymap ("C-c b" . beframe-prefix-map)
   :custom
   (beframe-global-buffers '("*scratch*" "*Messages*" "*Backtrace*"))
-  :config
-  (beframe-mode 1))
+  :init
+  (beframe-mode t))
 
 (use-package ace-window
   :ensure t

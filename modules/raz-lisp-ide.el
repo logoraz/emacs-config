@@ -39,6 +39,8 @@
   ;; and you can select a program from that list.
   (setq sly-lisp-implementations
         `((sbcl (,(executable-find "sbcl")))
+          (ecl (,(executable-find "ecl")))
+          (clisp (,(executable-find "clisp")))
           (clasp (,(executable-find "clasp")))
           (nyxt ("sbcl" "--dynamic-space-size 3072")
                 :env (,*nyxt-env*))))
