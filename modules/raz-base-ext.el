@@ -86,13 +86,23 @@
   :ensure t
   :config
   ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+  (setq doom-themes-enable-bold t      ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  ;; (load-theme 'doom-one t)
-  (load-theme 'doom-tomorrow-night t)
+
+  ;; (load-theme 'doom-one :no-confirm)
+  (load-theme 'doom-tomorrow-night :no-confirm)
+
+  (defun apply-my-theme (frame)
+  "Apply my preferred theme to a new frame."
+  (select-frame frame)
+  (load-theme 'doom-tomorrow-night :no-confirm))
+
+  (add-hook 'after-make-frame-functions
+            'apply-my-theme)
 
   ;; Enable custom neotree theme (nerd-icons must be installed!)
-  ;; (doom-themes-neotree-config)
+  (doom-themes-neotree-config)
+  (setq doom-themes-neotree-file-icons t)
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
