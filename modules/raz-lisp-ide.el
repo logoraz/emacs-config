@@ -31,19 +31,21 @@
   ;; (asdf:load-system :nyxt/gi-gtk)
   ;; (nyxt:start)
   ;; TODO: determine how to start w/o loading config for this...
-  (defvar *nyxt-env* (concat "CL_SOURCE_REGISTRY=~/.local/share/common-lisp/src//"
-                             ":~/.local/share/common-lisp/src/nyxt/_build//")
+  (defvar *nyxt-env* (concat "CL_SOURCE_REGISTRY="
+                             "~/.local/share/common-lisp/bin/nyxt//:"
+                             "~/.local/share/common-lisp/bin/nyxt/ocicl//")
     "Setup environment to run Nyxt's CL system from SLY")
 
   ;; Invoke SLY with a negative prefix argument, M-- M-x sly,
   ;; and you can select a program from that list.
   (setq sly-lisp-implementations
-        `((sbcl (,(executable-find "sbcl")))
-          (ecl (,(executable-find "ecl")))
-          (clisp (,(executable-find "clisp")))
-          (clasp (,(executable-find "clasp")))
+        `((sbcl  (,(executable-find "sbcl"))  :coding-system utf-8-unix)
+          (ecl   (,(executable-find "ecl"))   :coding-system utf-8-unix)
+          (clisp (,(executable-find "clisp")) :coding-system utf-8-unix)
+          (clasp (,(executable-find "clasp")) :coding-system utf-8-unix)
           (nyxt ("sbcl" "--dynamic-space-size 3072")
-                :env (,*nyxt-env*))))
+                :env (,*nyxt-env*)
+                :coding-system utf-8-unix)))
 
   (defun raz/nyxt-sly-connect ()
     "Connect to Nyxt slynk session, start via M-x start-slynk -> port 4005."

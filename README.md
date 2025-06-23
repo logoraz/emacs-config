@@ -1,6 +1,6 @@
-# emacs-config - Raz Emacs Configuration 
+# emacs-config - A Modular Emacs Configuration 
 
-Personal configuration for Emacs.
+My personal "lightweight" modular Emacs configuration.
 
 <p align="center">
   <img src="assets/emacs-logo.png" width="270" />
