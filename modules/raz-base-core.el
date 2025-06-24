@@ -86,6 +86,7 @@
 (setq-default large-file-warning-threshold 100000000
               find-file-visit-truename t)
 (global-auto-revert-mode 1)
+(customize-set-variable 'global-auto-revert-non-file-buffers t)
 (delete-selection-mode)
 (column-number-mode 1)
 
@@ -152,7 +153,7 @@
 
 (use-package poroject
   :disabled
-  ;; configure projectile
+  ;; configure project.el
   )
 
 

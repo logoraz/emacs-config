@@ -153,8 +153,7 @@
           lisp-interaction-mode
           emacs-lisp-mode
           lisp-mode
-          scheme-mode
-          org-mode) . enable-paredit-mode))
+          scheme-mode) . enable-paredit-mode))
 
 (use-package ws-butler
   :ensure t
@@ -190,7 +189,12 @@
   :custom
   (flycheck-checker-error-threshold 2000 "Increase error threshold."))
 
-
+(use-package markdown-mode
+  :ensure t
+  :mode ("README\\.md\\'" . gfm-mode)
+  :init (setq markdown-command "multimarkdown")
+  :bind (:map markdown-mode-map
+         ("C-c C-e" . markdown-do)))
 
 (provide 'raz-base-ext)
 ;;; raz-base-ext.el ends here
