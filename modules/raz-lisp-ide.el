@@ -12,7 +12,8 @@
 ;; TODO:
 ;;   1. Setup/Configure Nyxt extension
 ;;   2. Setup/Configure stumpwm-mode extension
-;;   3. Look into:  `M-.' -> runs the command sly-edit-definition (found in sly-mode-map),
+;;   3. Look into:  `M-.' -> runs the command sly-edit-definition
+;;      (found in sly-mode-map),
 ;;      which is an interactive native-compiled Lisp function in ‘sly.el’.
 
 
@@ -24,7 +25,7 @@
   :hook ((lisp-mode . sly-editing-mode))
 
   :custom
-  (inferior-lisp-program (executable-find "sbcl")
+  (inferior-lisp-program (executable-find "ccl")
                          "Set default lisp to Steel Bank Common Lisp.")
   :config
   ;;Start the REPL by issuing M-- M-x sly RET nyxt RET and evaluate:
@@ -39,10 +40,12 @@
   ;; Invoke SLY with a negative prefix argument, M-- M-x sly,
   ;; and you can select a program from that list.
   (setq sly-lisp-implementations
-        `((sbcl  (,(executable-find "sbcl"))  :coding-system utf-8-unix)
+        `((ccl   (,(executable-find "ccl"))   :coding-system utf-8-unix)
+          (sbcl  (,(executable-find "sbcl"))  :coding-system utf-8-unix)
           (ecl   (,(executable-find "ecl"))   :coding-system utf-8-unix)
           (clisp (,(executable-find "clisp")) :coding-system utf-8-unix)
           (clasp (,(executable-find "clasp")) :coding-system utf-8-unix)
+          ;; TODO - Updated: currently doesn't work for electron
           (nyxt ("sbcl" "--dynamic-space-size 3072")
                 :env (,*nyxt-env*)
                 :coding-system utf-8-unix)))
