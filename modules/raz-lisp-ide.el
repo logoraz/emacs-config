@@ -25,7 +25,7 @@
   :hook ((lisp-mode . sly-editing-mode))
 
   :custom
-  (inferior-lisp-program (executable-find "ccl")
+  (inferior-lisp-program (executable-find "sbcl")
                          "Set default lisp to Steel Bank Common Lisp.")
   :config
   ;;Start the REPL by issuing M-- M-x sly RET nyxt RET and evaluate:
@@ -40,11 +40,11 @@
   ;; Invoke SLY with a negative prefix argument, M-- M-x sly,
   ;; and you can select a program from that list.
   (setq sly-lisp-implementations
-        `((ccl   (,(executable-find "ccl"))   :coding-system utf-8-unix)
-          (sbcl  (,(executable-find "sbcl"))  :coding-system utf-8-unix)
+        `((sbcl  (,(executable-find "sbcl"))  :coding-system utf-8-unix)
+          (ccl   (,(executable-find "ccl"))   :coding-system utf-8-unix)
           (ecl   (,(executable-find "ecl"))   :coding-system utf-8-unix)
-          (clisp (,(executable-find "clisp")) :coding-system utf-8-unix)
           (clasp (,(executable-find "clasp")) :coding-system utf-8-unix)
+          (clisp (,(executable-find "clisp")) :coding-system utf-8-unix)
           ;; TODO - Updated: currently doesn't work for electron
           (nyxt ("sbcl" "--dynamic-space-size 3072")
                 :env (,*nyxt-env*)

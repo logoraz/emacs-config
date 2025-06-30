@@ -23,6 +23,7 @@
   :bind (("C-c a" . org-agenda)
          ("C-c c" . org-capture))
   :custom
+  (org-image-actual-width (list 250))
   (org-auto-align-tags nil)
   (org-tags-column 0)
   (org-catch-invisible-edits 'show-and-error)
