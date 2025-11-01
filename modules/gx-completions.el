@@ -1,43 +1,32 @@
-;; raz-completions-mct.el --- Completions Framework -*- lexical-binding: t -*-
+;;; gx-completions.el --- Completions Framework -*- lexical-binding: t -*-
 
-;; Author: Erik P. Almaraz
+;;; Commentary:
 
-;; Commentary/References:
-;;   See built-in completion UI framework `icomplete', `ido', `fido'
+
+;;; Code:
+
 
 
-;; Code:
-;;TODO - define variables using `use-package' `:custom' keyword where possible.
 
 (use-package orderless
   ;;https://github.com/oantolin/orderless
-  :ensure t
   :custom
   ;; Need to verify this doesn't conflict with mct mode
   (completion-styles '(orderless basic))
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package marginalia
-  :ensure t
   :diminish marginalia-mode
   :bind (:map minibuffer-local-map
               ("M-A" . marginalia-cycle))
   :config
   (marginalia-mode))
 
-;;FIXME - Investigate further mode-line active/inactive bug and report or try to
-;;        fix.
-;;ISSUE - Mode Line in window stays active when focus has switched to
-;;        completions buffer - seems to happen when completions buffer is
-;;        automatically updated or manually requested through "TAB" activation...
-;;
-
 (use-package mct
-  :ensure t
   :diminish mct-mode
   :demand t
   :bind (:map minibuffer-local-filename-completion-map
-              ("DEL" . raz/backward-updir)
+              ("DEL" . gx/backward-updir)
               :map minibuffer-local-completion-map
               ("SPC" . nil)
               ("?"   . nil))
@@ -58,7 +47,7 @@
                                                orderless)))))
   :config
   ;; Prot's adaptation of `icomplete-fido-backward-updir'.
-  (defun raz/backward-updir ()
+  (defun gx/backward-updir ()
     "Delete char before point or go up a directory."
     (interactive nil mct-mode)
     (cond
@@ -76,13 +65,7 @@
 
   (mct-mode))
 
-
-;; Completions
-;;FIXME: Had to install via 'gnu' archive, something was going wrong with melpa - also,
-;; package archives did not respect alist order - should have check gnu first,
-;; is there a way to set a prefered archive/source for 'packages'.
 (use-package corfu
-  :ensure t
   :diminish corfu-mode
   :hook (prog-mode . corfu-mode)
   :custom
@@ -102,7 +85,9 @@
         tab-always-indent 'complete
         completion-cycle-threshold 3))
 
+
 
 
 
-(provide 'raz-completions-mct)
+(provide 'gx-completions)
+;;; gx-completions.el ends here
