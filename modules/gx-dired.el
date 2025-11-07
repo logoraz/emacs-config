@@ -32,10 +32,12 @@
 ;;; DIRED Extensions --> Prettify & Mutimedia Support
 
 (use-package all-the-icons-dired
+  :ensure t
   ;; :hook (dired-mode . all-the-icons-dired-mode)
   )
 
 (use-package dired-preview
+  :ensure t
   :after (dired image-dired)
   ;; https://protesilaos.com/emacs/dired-preview
   :hook ((dired-preview-mode . dired-hide-details-mode)

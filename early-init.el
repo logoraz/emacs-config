@@ -193,10 +193,10 @@
             "Relocate elpa to Emacs XDG_CACHE_HOME location.")
 
 (add-to-list 'package-archives
-             '("stable" . "https://stable.melpa.org/packages/"))
+             '("stable" . "https://stable.melpa.org/packages/") :append)
 
 (add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
+             '("melpa" . "https://melpa.org/packages/") :append)
 
 (gx/setopts package-archive-priorities
             '(("melpa"  . 99)  ;; prefer bleading-edge package from melpa
@@ -206,6 +206,7 @@
             "Set package archive preference: melpa > stable > nongnu > gnu")
 
 ;; disable for now as it greatly impacts startup!
+(require 'package)
 (package-initialize)
 
 

@@ -10,12 +10,14 @@
 
 (use-package orderless
   ;;https://github.com/oantolin/orderless
+  :ensure t
   :custom
   ;; Need to verify this doesn't conflict with mct mode
   (completion-styles '(orderless basic))
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package marginalia
+  :ensure t
   :diminish marginalia-mode
   :bind (:map minibuffer-local-map
               ("M-A" . marginalia-cycle))
@@ -23,6 +25,7 @@
   (marginalia-mode))
 
 (use-package mct
+  :ensure t
   :diminish mct-mode
   :demand t
   :bind (:map minibuffer-local-filename-completion-map
@@ -66,6 +69,7 @@
   (mct-mode))
 
 (use-package corfu
+  :ensure t
   :diminish corfu-mode
   :hook (prog-mode . corfu-mode)
   :custom

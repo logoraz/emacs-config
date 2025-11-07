@@ -8,6 +8,8 @@
 
 
 
+;; Add mu4e to load-path (if not auto-detected)
+;;(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e/")
 
 (use-package mu4e
   :defer t          ;remove once hook is used for gpg encryption
@@ -97,11 +99,13 @@
 
 
 (use-package erc-hl-nicks
+  :ensure t
   :after (erc)
   :config
   (add-to-list 'erc-modules 'hl-nicks))
 
 (use-package erc-image
+  :ensure t
   :after (erc)
   :config
   (setq erc-image-inline-rescale 300)
@@ -112,6 +116,7 @@
 ;;; Mail/Chat Emojification
 
 (use-package emojify
+  :ensure t
   :hook (erc-mode . emojify-mode)
   :commands emojify-mode)
 

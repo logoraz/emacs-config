@@ -166,6 +166,7 @@
 ;;; External Org Packages
 
 (use-package org-appear
+  :ensure t
   ;; :diminish org-appear-mode
   :hook (org-mode . org-appear-mode)
   :custom
@@ -177,6 +178,7 @@
   (org-appear-autoentities t))
 
 (use-package org-superstar
+  :ensure t
   ;; :diminish org-superstar-mode
   :hook (org-mode . org-superstar-mode)
   :custom
@@ -198,6 +200,7 @@
 ;;; Markdown Support
 
 (use-package markdown-mode
+  :ensure t
   :mode ("README\\.md\\'" . gfm-mode)
   :init (setq markdown-command "multimarkdown")
   :bind (:map markdown-mode-map
@@ -206,6 +209,7 @@
 
 ;;; Advanced Notetaking  --> Better Integrate with Org
 (use-package denote
+  :ensure t
   ;; (find-file . denote-link-buttonize-buffer) --> failing...
   :hook ((dired-mode . denote-dired-mode-in-directories)
          (denote-dired-mode . dired-hide-details-mode)

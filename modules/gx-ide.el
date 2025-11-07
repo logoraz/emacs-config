@@ -1,4 +1,4 @@
-;;; gx-ide.el --- Guile/CL IDE -*- lexical-binding: t -*-
+;;; gx-clide.el --- CL IDE -*- lexical-binding: t -*-
 
 ;;; Commentary:
 
@@ -77,6 +77,7 @@
                  'append)))))
 
 (use-package paredit
+  :ensure t
   :diminish paredit-mode
   :hook ((eval-expression-minibuffer-setup
           lisp-interaction-mode
@@ -86,6 +87,7 @@
          . enable-paredit-mode))
 
 (use-package undo-tree
+  :ensure (undo-tree :pin gnu)
   :diminish undo-tree-mode
   :custom
   (undo-tree-history-directory-alist
@@ -96,10 +98,12 @@
   (global-undo-tree-mode))
 
 (use-package ws-butler
+  :ensure t
   :diminish ws-butler-mode
   :hook ((text-mode prog-mode) . ws-butler-mode))
 
 (use-package flycheck
+  :ensure t
   :diminish
   :init (global-flycheck-mode)
   :custom
@@ -108,7 +112,7 @@
 
 (use-package magit
   :defer 2
-  :ensure (magit :pin melpa)
+  :ensure (magit :pin stable)
   :custom
   (magit-clone-always-transient nil)
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
@@ -119,9 +123,11 @@
     (global-auto-revert-mode)))
 
 ;; #:TODO/250901 --> provide better configuration here...
-(use-package vterm)
+(use-package vterm
+  :ensure t)
 
 (use-package colorful-mode
+  :ensure t
   :diminish
   :custom
   (colorful-use-prefix t)
@@ -134,7 +140,8 @@
 (use-package xr
   ;; converts regex strings to rx sexp syntax
   ;; https://github.com/mattiase/xr
-  :ensure (xr :pin stable)) ;; use melpa for now until I do a reconfigure
+  ;; :ensure (xr :pin melpa)
+  :ensure t)
 
 (use-package project
   :disabled)
@@ -147,15 +154,13 @@
   :disabled
   :vc (:url "https://github.com/dotemacs/lisp-comment-dwim.el" :branch "main")
   :config
-  ;; To provide comment face for #+nil
-  ;; (font-lock-add-keywords 'lisp-mode
-  ;;                         '(("^[[:space:]]*#\\+nil.*$" . font-lock-comment-face)))
-
   (lisp-comment-dwim-setup-keybindings))
 
 (use-package sly
+  :ensure t
   ;; Enable sly IDE for Common Lisp
-  :hook ((lisp-mode . sly-editing-mode))
+  :hook ((lisp-mode . sly-editing-mode)
+         (lisp-mode . gx/sly-auto-connect))
   :custom
   (inferior-lisp-program (executable-find "sbcl")
                          "Set default lisp to Steel Bank Common Lisp.")
@@ -164,12 +169,7 @@
   ;; and you can select a program from that list.
   (setq sly-lisp-implementations
         `((sbcl (,(executable-find "sbcl")))
-          (clasp (,(executable-find "clasp")))))
-
-  (defun gx/swm-sly-connect ()
-    "Auto connect to StumpWM slynk session -> port 4005."
-    (interactive)
-    (save-excursion (sly-connect "localhost" 4005)))
+          (ccl (,(executable-find "ccl")))))
 
   ;; See: https://joaotavora.github.io/sly/#Loading-Slynk-faster
   (defun gx/sly-auto-connect ()
@@ -179,6 +179,7 @@
 
 ;; Neotree for Lem-like lisp IDE
 (use-package neotree
+  :disabled
   :config
   (setq neo-smart-open t
         neo-show-hidden-files t
@@ -210,9 +211,11 @@
 ;; emacs-bui, emacs-dash, emacs-edit-indirect,
 ;; emacs-geiser, emacs-geiser-guile, emacs-magit-popup
 ;; module-import-compiled
-(use-package guix)
+(use-package guix
+  :disabled)
 
 (use-package arei
+  :disabled
   :after (sesman)
   :config
   (require 'cl-lib)

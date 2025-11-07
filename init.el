@@ -49,8 +49,8 @@
   :group 'gexwm)
 
 ;; construction
-(defvar gx-guix? (not (file-directory-p (expand-file-name "/gnu/store/")))
-  "Flag variable, true if were not using GNU Guix etc.")
+(defvar gx-guix? (file-directory-p (expand-file-name "/gnu/store/"))
+  "Flag variable, true if were using GNU Guix etc.")
 
 (defvar gx-exwm? (string-equal (getenv "XDG_CURRENT_DESKTOP")
                                "exwm")
@@ -58,11 +58,9 @@
 ;; construction
 
 ;; Guix Related Ennvironment Setup
-(when (eq system-type 'gnu/linux)
+(when gx-guix?
   (load (concat gx-emacs-packages-path "subdirs.el") :no-error :no-message)
-  (add-to-list 'load-path gx-emacs-packages-path))
-
-(when (eq system-type 'gnu/linux)
+  (add-to-list 'load-path gx-emacs-packages-path)
   (guix-emacs-autoload-packages))
 
 ;; Add the modules directory to the load path
@@ -80,8 +78,9 @@
     (set-frame-parameter nil 'undecorated nil))
 
 ;; set in early-init...
-;; (gx/setopts inhibit-startup-echo-area-message user-login-name
-;;             "Disable startup echo area message per user")
+(when gx-guix?
+  (gx/setopts inhibit-startup-echo-area-message user-login-name
+              "Disable startup echo area message per user"))
 
 
 
@@ -98,8 +97,7 @@
 
 ;;; Load Config Modules
 (gx/setopts debug-on-error t "Set debugging on error as default!")
-;; disable for now as it greatly impacts startup!
-;; (package-initialize)
+
 
 ;;; EXWM
 (gx->defhook gx/exwm--start-hookfn

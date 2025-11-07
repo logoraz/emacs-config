@@ -86,7 +86,8 @@
 ;;; External Modules
 
 ;;; Configure package PATH's
-(use-package no-littering)
+(use-package no-littering
+  :ensure t)
 
 
 ;;; UI Configuration
@@ -98,6 +99,7 @@
   ;; Fira Code & Ligature Support
   ;; See: https://github.com/tonsky/FiraCode/wiki/Emacs-instructions#using-ligature
   ;; See: https://github.com/mickeynp/ligature.el
+  :ensure t
   :diminish ligature-mode
   :config
   (defun gx/set-font-faces ()
@@ -146,9 +148,11 @@
 ;; (add-to-list 'custom-theme-load-path (expand-file-name "~/.config/emacs/themes/"))
 ;; (load-theme 'kanagawa t)
 ;; https://github.com/tinted-theming/base16-emacs
-(use-package all-the-icons)
+(use-package all-the-icons
+  :ensure t)
 
 (use-package nerd-icons
+  :ensure t
   :config
   ;; changes for newer version of nerd-icons
   ;; (add-to-list
@@ -177,6 +181,7 @@
    '(lisp-mode nerd-icons-sucicon "nf-custom-common_lisp" :face nerd-icons-silver)))
 
 (use-package doom-modeline
+  :ensure t
   :init (doom-modeline-mode 1)
   :custom
   (doom-modeline-height 32)
@@ -187,6 +192,7 @@
   (column-number-mode))
 
 (use-package doom-themes
+  :ensure t
   :bind ("C-c d" . #'neotree)
   :config
   ;; Global settings (defaults)
@@ -270,6 +276,7 @@
 
 (use-package beframe
   ;; Use beframe to handle desktops
+  :ensure
   :diminish beframe-mode
   :bind (("C-c b" . beframe-transient))
   :custom
@@ -287,6 +294,7 @@
                '("*Buffer List*" . (display-buffer-same-window))))
 
 (use-package ace-window
+  :ensure
   :bind ("M-o" . 'ace-window))
 
 
