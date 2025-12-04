@@ -7,6 +7,11 @@
 
 ;;; Code:
 
+
+;;; Global user variables
+(defvar *gx-org-denote-directory* "~/Documents/org/"
+  "Directory where org files & denotes are kept.")
+
 
 
 ;;; Configure the ALMIGHTY Org system
@@ -66,9 +71,12 @@
   (org-babel-lisp-eval-fn 'sly-eval
                           "Configure Babel Programming Language Execution")
 
-  (org-agenda-files (list "~/documents/org/agenda.org"))
+  (org-agenda-files
+   (list
+    (expand-file-name "agenda.org" *gx-org-denote-directory*)))
   ;; Use Org to create Calendar entries (see calendar config below)
-  (org-agenda-diary-file "~/documents/org/calendar.org")
+  (org-agenda-diary-file
+   (expand-file-name "calendar.org" *gx-org-denote-directory*))
   :config
   ;; Org Helper Hook Functions
   (defun gx/org-fonts-hookfn ()
@@ -189,11 +197,11 @@
 ;;; Calendar/Diary Integration
 ;;; 1. specify path to regular `diary-file'
 ;;; 2. create file with the following entry:
-;;; %%(org-diary) /home/logoraz/documents/org/calendar.org
+;;; %%(org-diary) /home/logoraz/Documents/org/calendar.org
 (use-package calendar
   :custom
   (calendar-mark-diary-entries-flag t)
-  (diary-file (expand-file-name "~/documents/org/diary")))
+  (diary-file (expand-file-name "diary" *gx-org-denote-directory*)))
 
 
 
@@ -218,7 +226,7 @@
   :bind (("C-c n j" . gx/denote-journal)
          ("C-c n n" . denote))
   :custom
-  (denote-directory (expand-file-name "~/documents/org"))
+  (denote-directory (expand-file-name *gx-org-denote-directory*))
   (denote-dired-directories-include-subdirectories t)
   (denote-dired-directories
    (list
