@@ -155,17 +155,17 @@
   :ensure t
   :config
   ;; changes for newer version of nerd-icons
-  ;; (add-to-list
-  ;;  'nerd-icons-extension-icon-alist
-  ;;  '("lisp" nerd-icons-mdicon "nf-md-yin_yang" :face nerd-icons-silver))
+  (add-to-list
+   'nerd-icons-extension-icon-alist
+   '("lisp" nerd-icons-mdicon "nf-md-yin_yang" :face nerd-icons-silver))
 
-  ;; (add-to-list
-  ;;  'nerd-icons-extension-icon-alist
-  ;;  '("asd" nerd-icons-mdicon "nf-md-yin_yang" :face nerd-icons-silver))
+  (add-to-list
+   'nerd-icons-extension-icon-alist
+   '("asd" nerd-icons-mdicon "nf-md-yin_yang" :face nerd-icons-silver))
 
-  ;; (add-to-list
-  ;;  'nerd-icons-mode-icon-alist
-  ;;  '(lisp-mode nerd-icons-mdicon "nf-md-yin_yang" :face nerd-icons-silver))
+  (add-to-list
+   'nerd-icons-mode-icon-alist
+   '(lisp-mode nerd-icons-mdicon "nf-md-yin_yang" :face nerd-icons-silver))
 
   ;; Set "lisp" extensions/lisp-mode to Common Lisp Icon, instead of Scheme Icon...
   (add-to-list

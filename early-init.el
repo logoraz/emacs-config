@@ -137,7 +137,7 @@
             "Hopefully make resizing frame more smooth.")
 
 (defvar gx--custom-frame-alist
-  '((alpha-background . 0.85) ;; Need an X Emacs that is capable of this.
+  '((alpha-background . 0.85)
     (fullscreen . maximized)
     (use-frame-synchronization . extended))
   "Default frame parameters.")

@@ -151,7 +151,6 @@
 ;;; Common Lisp IDE
 
 (use-package lisp-comment-dwim
-  :disabled
   :vc (:url "https://github.com/dotemacs/lisp-comment-dwim.el" :branch "main")
   :config
   (lisp-comment-dwim-setup-keybindings))
@@ -165,11 +164,17 @@
   (inferior-lisp-program (executable-find "sbcl")
                          "Set default lisp to Steel Bank Common Lisp.")
   :config
+  ;; Provide proper syntax highlighting for `defsystem'
+  (font-lock-add-keywords 'lisp-mode
+  '(("(\\s-*\\(defsystem\\)\\>" 1 font-lock-keyword-face prepend)))
+
   ;; Invoke SLY with a negative prefix argument, M-- M-x sly,
   ;; and you can select a program from that list.
   (setq sly-lisp-implementations
         `((sbcl (,(executable-find "sbcl")))
           (ccl (,(executable-find "ccl")))))
+
+  ;; (add-to-list 'sly-contribs 'sly-asdf)
 
   ;; See: https://joaotavora.github.io/sly/#Loading-Slynk-faster
   (defun gx/sly-auto-connect ()
@@ -179,7 +184,7 @@
 
 ;; Neotree for Lem-like lisp IDE
 (use-package neotree
-  :disabled
+  :ensure t
   :config
   (setq neo-smart-open t
         neo-show-hidden-files t

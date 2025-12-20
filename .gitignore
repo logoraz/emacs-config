@@ -1,4 +1,6 @@
 # Main
+flycheck*
+projects*
 /ocicl/*
 /elpa/*
 
