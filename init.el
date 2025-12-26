@@ -2,7 +2,8 @@
 
 ;;; Commentary:
 ;;;
-;;; gEXWM framework/initializations
+;;; gxEMAX framework/initializations
+;;; |--> EXWM & Wayland compatible
 
 
 ;;; Code:
@@ -14,7 +15,7 @@
 ;;; user-emacs-directory --> ~/.cache/emacs/ (early-init)
 
 (defgroup gxemacs nil
-  "GuixOS Emacs (aka gEMACS) Configuration."
+  "Grafted-X Emacs Configuration."
   :tag "gxEMACS"
   :link '(url-link "")
   :group 'emacs)
@@ -117,7 +118,7 @@ Should be loaded after gx/lazarus--hookfn --> `early-init'."
 (require 'gx-base)
 (require 'gx-completions)
 (require 'gx-dired)
-(require 'gx-ide)
+(require 'gx-clide)
 
 ;; Office/Mail/Chat
 (require 'gx-org)

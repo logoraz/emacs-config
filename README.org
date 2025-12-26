@@ -1,0 +1,25 @@
+#+title: emacs-config: A Modular Emacs Configuration
+#+author: logoraz
+#+date: 2025-12-25
+#+options: toc:nil
+#+startup: overview
+#+startup: inlineimages
+:meta:
+:end:
+
+
+#+html: <p align="center"> <img src="assets/emacs-logo.png" width="300"/> </p>
+
+# For Reference
+# #+caption: Original Emacs Logo
+# #+attr_org: :width 300px :align center
+# [[assets/emacs-logo.png]]
+
+
+My personal "lightweight" modular Emacs configuration.
+
+
+** References:
+
+  - TBD
+  - TBD
