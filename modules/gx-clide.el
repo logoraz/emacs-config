@@ -40,7 +40,7 @@
   ;; Only activate for lisp-mode
   :hook ((prog-mode org-mode) . display-fill-column-indicator-mode)
   :custom
-  (fill-column 78)
+  (fill-column 81)
   (display-fill-column-indicator-column fill-column)
   :config
   ;; Make fill-column-indicator face darker --> line-number face
@@ -151,6 +151,7 @@
 ;;; Common Lisp IDE
 
 (use-package lisp-comment-dwim
+  :disabled ; experimental --> creates an unwanted project file in user directory
   :vc (:url "https://github.com/dotemacs/lisp-comment-dwim.el" :branch "main")
   :config
   (lisp-comment-dwim-setup-keybindings))
@@ -273,5 +274,5 @@
 
 
 
-(provide 'gx-ide)
-;;; gx-ide.el ends here
+(provide 'gx-clide)
+;;; gx-clide.el ends here
