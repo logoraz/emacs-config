@@ -57,20 +57,28 @@
                    ("@phone"     . ?P)
                    ("@email"     . ?M)))
   (org-todo-keywords
-   '((sequence "TODO(t)" "NEXT(n)" "|" "HOLD(n)" "WAIT(w)" "DONE(d)")
-     (sequence "ACTIVE(a@/!)" "|" "ARCHIVED(r@/!)")))
+   '(;; List Keywords
+     (sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)" "HOLD(h)" "WAIT(w)")
+     ;; Workout Keywords
+     (sequence "GOTO(g)" "|" "CHEAT(t)" "REST(r)" "COMPLETE(e@/!)")
+     ;; Project Keywords
+     (sequence "ACTIVE(a@/!)" "|" "CANCELED(c@/!)" "ARCHIVED(r@/!)")))
   ;; view color options via `M-x' `list-colors-display'
   (org-todo-keyword-faces
    '(("TODO" . "#fff68f")               ; khaki1
      ("NEXT" . "#00bfff")               ; DeepSkyBlue
+     ("GOTO" . "#d08770")               ; Aurora orange
+     ("REST" . "#88c0d0")               ; Frost teal
      ("WAIT" . "#ff69b4")               ; HotPink
      ("HOLD" . "#ff6347")               ; tomato
      ("DONE" . "#3cb371")               ; MediumSeaGreen
+     ("CHEAT" . "#bf616a")              ; Aurora red
      ("ACTIVE"    . "#7fffd4")          ; aquamarine
+     ("COMPLETE"  . "#a3be8c")          ; Aurora green
+     ("CANCELED"  . "#81a1c1")          ; Frost blue
      ("ARCHIVED"  . "#ab82ff")))        ; MediumPurple1
   (org-babel-lisp-eval-fn 'sly-eval
                           "Configure Babel Programming Language Execution")
-
   (org-agenda-files
    (list
     (expand-file-name "agenda.org" *gx-org-denote-directory*)))
@@ -190,7 +198,7 @@
   ;; :diminish org-superstar-mode
   :hook (org-mode . org-superstar-mode)
   :custom
-  (org-superstar-headline-bullets-list '("◉" "○" "●" "○" "●" "○" "●")))
+  (org-superstar-headline-bullets-list '("◉" "○" "●" "○" "●" "○" "●" "○" "●")))
 
 
 
