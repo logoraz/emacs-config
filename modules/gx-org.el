@@ -144,15 +144,15 @@
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
-     (lisp . t)
-     (scheme . t)))
+     (lisp       . t)
+     (scheme     . t)))
 
   (dolist (lang
-           '(("conf-unix" . conf-unix)
-             ("conf-xorg" . conf-xdefaults)
-             ("lisp"      . lisp)
+           '(("lisp"      . lisp)
              ("scheme"    . scheme)
-             ("guile"     . scheme)))
+             ("json"      . json)
+             ("conf-unix" . conf-unix)
+             ("conf-xorg" . conf-xdefaults)))
     (push lang org-src-lang-modes)))
 
 
@@ -169,9 +169,9 @@
   :config
   (setq org-structure-template-alist
         '(("el"  . "src emacs-lisp")
-          ("li"  . "src lisp")
+          ("cl"  . "src lisp")
           ("sc"  . "src scheme")
-          ("gx"  . "src guile")
+          ("js"  . "src json")
           ("sh"  . "src sh")
           ("co"  . "src conf")
           ("C"   . "src C")
@@ -240,6 +240,7 @@
    (list
     denote-directory
     (expand-file-name "notes/inbox" denote-directory)
+    (expand-file-name "notes/meetings" denote-directory)
     (expand-file-name "notes/research" denote-directory)
     (expand-file-name "notes/reference" denote-directory)
     (expand-file-name "notes/scratch" denote-directory)
