@@ -7,17 +7,16 @@
 
 ;;; Code:
 
-
-
-;;; Functions for symlinking and backup of existing "old" configs
-(defun gx/create-config-dir-link (target link)
-  "Create a symlink, LINK of TARGET, to my config file."
+(defun gx/create-symlink (target link)
+  "Create a symlink, LINK of TARGET."
   (let ((target (expand-file-name target))
         (link (expand-file-name link)))
     (when (file-exists-p link)
       (delete-file link))
     (make-symbolic-link target link)))
 
+
+;;; Backup System for configs
 (defun gx/archive-old-configs ()
   "Rename old Emacs config files and directories to avoid conflicts."
   (let ((old-files '("~/.emacs" "~/.emacs.el"))
@@ -38,11 +37,30 @@
         (message "Renamed %s to %s" old-dir backup)))))
 
 
-;;; Execute/Deploy
-(message "Starting gxEmacs configuration bootstrap...")
-(gx/archive-old-configs)
-(gx/create-config-dir-link "~/Work/emacs-config" "~/.config/emacs")
-(message "Bootstrap complete!")
+;;; Deploy
+(defun gx/deploy-config ()
+  "Deploy gxEmacs config."
+  (message "Starting gxEmacs configuration bootstrap...")
+  (gx/archive-old-configs)
+  (gx/create-symlink "~/Work/emacs-config" "~/.config/emacs")
+  (message "Bootstrap complete!"))
+
+(if (eq system-type 'gnu/linux) (gx/deploy-config))
+
+(defun gx/deploy-sbclrc ()
+  "Copy reference sbclrc, SOURCE, to DESTINATION."
+  (pcase system-type
+    ('windows-nt (copy-file
+                  (expand-file-name "dot-sbclrc-windows.lisp"
+                                    "~/.emacs.d/files/common-lisp")
+                  (expand-file-name ".sbclrc" "~") t))
+    ('gnu/linux (copy-file
+                 (expand-file-name "dot-sbclrc-linux.lisp"
+                                   "~/Work/emacs-config/files/common-lisp")
+                 (expand-file-name ".sbclrc" "~") t)))
+  (message "SBCLRC deployed"))
+
+(gx/deploy-sbclrc)
 
 
 

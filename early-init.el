@@ -10,11 +10,25 @@
 
 
 ;;; Bootstrap
-(defvar gx-xdg-config-home (expand-file-name "emacs" "~/.config")
-  "Emacs XDG_CONFIG_HOME path.")
+(defvar gx-xdg-config-home
+  (let ((config-dir
+         (pcase system-type
+           ('windows-nt (expand-file-name ".emacs.d" "~"))
+           ('gnu/linux  (expand-file-name "emacs"    "~/.config"))
+           (_           (expand-file-name "emacs"    "~/.config")))))
+    (make-directory config-dir t)
+    config-dir)
+  "Emacs config path - creates directory if non-existent.")
 
-(defvar gx-xdg-cache-home (expand-file-name "emacs" "~/.cache")
-  "Emacs XDG_CACHE_HOME path.")
+(defvar gx-xdg-cache-home
+  (let ((cache-dir
+         (pcase system-type
+           ('windows-nt (expand-file-name "emacs" "~/AppData/Local/cache"))
+           ('gnu/linux  (expand-file-name "emacs" "~/.cache"))
+           (_           (expand-file-name "emacs" "~/.cache")))))
+    (make-directory cache-dir t)
+    cache-dir)
+  "Emacs cache path - creates directory if non-existent.")
 
 (defvar gx-syntax-directory (expand-file-name "syntax" gx-xdg-config-home)
   "Emacs Syntax Extensions directory.")
@@ -26,7 +40,7 @@
 (gx/use-modules package)
 
 ;; Set the `user-emacs-directory` to a writeable path
-(setq user-emacs-directory gx-xdg-cache-home)
+(setq-default user-emacs-directory gx-xdg-cache-home)
 
 
 
@@ -136,25 +150,34 @@
 (gx/setopts frame-resize-pixelwise t
             "Hopefully make resizing frame more smooth.")
 
-(defvar gx--custom-frame-alist
-  '((alpha-background . 0.85)
-    (fullscreen . maximized)
-    (use-frame-synchronization . extended))
+(defvar gx--base-frame-alist
+  (let ((frame-alist
+         (pcase system-type
+           ('windows-nt '((alpha . 0)
+                          (undecorated . t)
+                          (use-frame-synchronization . extended)))
+           ('gnu/linux  '((alpha-background . 85)
+                          (fullscreen . maximized)
+                          (use-frame-synchronization . extended)))
+           (_           '((alpha-background . 85)
+                          (fullscreen . maximized)
+                          (use-frame-synchronization . extended))))))
+    frame-alist)
   "Default frame parameters.")
 
 (gx/setopts initial-frame-alist
             (append
-             gx--custom-frame-alist
+             gx--base-frame-alist
              initial-frame-alist)
             "Customize the initial frame alist.")
 
 (gx/setopts default-frame-alist
             (append
-             gx--custom-frame-alist
+             gx--base-frame-alist
              default-frame-alist)
             "Customize the default frame alist.")
 
-;; Avoid the flash of light
+;; Prevent white flash on startup
 ;; https://github.com/protesilaos/dotfiles/blob/master/emacs/.emacs.d/
 ;; early-init.el
 (defun gx/avoid-initial-flash-of-light ()
@@ -178,6 +201,20 @@
 (fringe-mode 1)
 (pixel-scroll-precision-mode 1)
 
+(gx->defhook gx/frame-special
+  "Restores frames to desired values in a special way."
+
+  (;;function body
+   (with-selected-frame frame
+     (set-frame-parameter nil 'alpha '(95 . 75))
+     (set-frame-parameter nil 'undecorated nil)
+     (toggle-frame-maximized))
+   (setf (alist-get 'alpha default-frame-alist) '(95 . 75)))
+
+  :disable? (eq system-type 'gnu/linux)
+  :args (frame)
+  :hook (after-make-frame-functions)
+  :depth 91)
 
 
 ;;; Package Management System & Loading Preferences

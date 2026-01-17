@@ -182,7 +182,7 @@ The following keywords are meaninful:
             (:disable? (setq disabled value))
             (:defer (setq time value))))))
 
-    (unless disabled
+    (unless (eval disabled)
       (if time (setq body `((run-at-time ,time nil (lambda ,args ,@body)))))
       (if (and doc (>= (length doc) 1)) (push `(defun ,symbol ,args ,doc ,@body) exps)
         (push `(defun ,symbol ,args ,@body) exps))
@@ -199,6 +199,7 @@ The following keywords are meaninful:
 ;;   (;;function body
 ;;    (message "I am here!!! %s %s %s" first second third))
 
+;;   :disable? (eq system-type 'gnu/linux)
 ;;   :hook (first-hook second-hook third-hook)
 ;;   :depth 'append
 ;;   :local 'local

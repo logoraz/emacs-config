@@ -110,21 +110,23 @@
   (flycheck-global-modes '(emacs-lisp-mode scheme-mode))
   (flycheck-checker-error-threshold 2000 "Increase error threshold."))
 
-(use-package magit
-  :defer 2
-  :ensure (magit :pin melpa)
-  :custom
-  (magit-clone-always-transient nil)
-  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
-  (vc-follow-symlinks t)
-  :config
-  (setq auto-revert-verbose nil)
-  (gx/ignore-messages
-    (global-auto-revert-mode)))
+(unless (eq system-type 'windows-nt)
+  (use-package magit
+    :defer 2
+    :ensure (magit :pin melpa)
+    :custom
+    (magit-clone-always-transient nil)
+    (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
+    (vc-follow-symlinks t)
+    :config
+    (setq auto-revert-verbose nil)
+    (gx/ignore-messages
+      (global-auto-revert-mode))))
 
 ;; #:TODO/250901 --> provide better configuration here...
-(use-package vterm
-  :ensure t)
+(unless (eq system-type 'windows-nt)
+  (use-package vterm
+    :ensure t))
 
 (use-package colorful-mode
   :ensure t
@@ -172,8 +174,7 @@
   ;; Invoke SLY with a negative prefix argument, M-- M-x sly,
   ;; and you can select a program from that list.
   (setq sly-lisp-implementations
-        `((sbcl (,(executable-find "sbcl")))
-          (ccl (,(executable-find "ccl")))))
+        `((sbcl (,(executable-find "sbcl")))))
 
   ;; (add-to-list 'sly-contribs 'sly-asdf)
 

@@ -122,8 +122,8 @@ Should be loaded after gx/lazarus--hookfn --> `early-init'."
 
 ;; Office/Mail/Chat
 (require 'gx-org)
-;; (require 'gx-mail)
-;; (require 'gx-desktop)
+(if (eq system-type 'gnu/linux) (require 'gx-mail))
+(if (eq gx-exwm? t) (require 'gx-desktop))
 
 ;; Start Emacs Server Daemon if not already started
 (unless (daemonp)

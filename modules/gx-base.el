@@ -75,7 +75,7 @@
 ;;; Info Files (Xtra)
 (use-package info
   :init
-  (gx/ensure-directory-exists "~/.cache/emacs/info")
+  (make-directory (expand-file-name "info" gx-xdg-cache-home) t)
   :config
   (add-to-list 'Info-directory-list
                (expand-file-name "info" user-emacs-directory))
@@ -102,13 +102,21 @@
   :ensure t
   :diminish ligature-mode
   :config
+  (defvar font-height
+    (let ((height
+           (pcase system-type
+             ('windows-nt 90)
+             ('gnu/linux  110)
+             (_           110))))
+      height)
+    "Set the font height based on system-type.")
   (defun gx/set-font-faces ()
     "Set font faces"
     (dolist
         (face
-         '((default :font "Fira Code" :height 110)
-           (fixed-pitch :font "Fira Code" :height 110)
-           (variable-pitch :font "Iosevka Aile" :height 110)))
+         `((default :font "Fira Code" :height ,font-height)
+           (fixed-pitch :font "Fira Code" :height ,font-height)
+           (variable-pitch :font "Iosevka Aile" :height ,font-height)))
       (gx/set-face-attribute (car face) (cdr face))))
 
   (if (daemonp)
