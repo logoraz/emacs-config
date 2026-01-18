@@ -5,14 +5,13 @@
 
 ;;; Code:
 
-
 (use-package vc
   :ensure nil
   :custom
   (vc-follow-symlinks t)
-  (vc-handled-backends '(Git))  ; Only use Git backend
+  (vc-handled-backends '(Git))          ; Only use Git backend
   :bind
-  (("C-x g" . vc-dir)
+  (("C-x g"   . vc-dir)
    ("C-c g s" . vc-dir)
    ("C-c g l" . vc-print-log)
    ("C-c g b" . vc-annotate)
@@ -36,7 +35,10 @@
   :after vc
   :bind
   (:map vc-dir-git-mode-map
-        ("r i" . gx/vc-git-rebase))
+        ("r i" . gx/vc-git-rebase)
+        ("P"   . vc-push)
+        ("U"   . vc-pull)
+        ("F"   . gx/vc-git-push-force))
   :custom
   (vc-git-diff-switches '("-w"))  ; Ignore whitespace in diffs
   (vc-git-print-log-follow t)     ; Follow file renames in log
@@ -45,24 +47,33 @@
     "Interactive rebase from COMMIT"
     (interactive "sRebase from (HEAD~N or commit): ")
     (let ((default-directory (vc-root-dir)))
-      (async-shell-command (format "git rebase -i %s" commit)))))
+      (async-shell-command (format "git rebase -i %s" commit))))
+
+  (defun gx/vc-git-push-force ()
+    "Force push to remote."
+    (interactive)
+    (let ((default-directory (vc-root-dir)))
+      (shell-command "git push --force-with-lease")))
+)
 
 ;; Git Rebase Mode
 (use-package git-rebase
-  :if (eq system-type 'gnu/linux)
-  :ensure nil)
+  :ensure nil
+  :if (eq system-type 'gnu/linux))
 
 (use-package git-modes
-  :if (eq system-type 'windows-nt)
   :ensure t
+  :if (eq system-type 'windows-nt)
   :config
   (setq git-rebase-show-instructions nil))
 
 
 ;; Fall back to external Version Control via Magit
+;; :TODO/260118 - Pending Remove
+;; :objective to obtain a more portable configuration accross gnu/linux & windows
 (unless (eq system-type 'windows-nt)
   (use-package magit
-    :disabled
+    :disabled ; use emacs vc for now to optimize configuration
     :defer 2
     :ensure (magit :pin melpa)
     :custom

@@ -81,6 +81,16 @@
                (expand-file-name "info" user-emacs-directory))
   (setopt Info-default-directory-list Info-directory-list))
 
+;;; Enable Emacs server
+(use-package server
+  :ensure nil
+  :config
+  (unless (server-running-p)
+    (server-start))
+  ;; Set editor to use emacsclient
+  (setenv "EDITOR" "emacsclient -c")
+  (setenv "VISUAL" "emacsclient -c"))
+
 
 
 ;;; External Modules
@@ -100,6 +110,7 @@
   ;; See: https://github.com/tonsky/FiraCode/wiki/Emacs-instructions#using-ligature
   ;; See: https://github.com/mickeynp/ligature.el
   :ensure t
+  :after server
   :diminish ligature-mode
   :config
   (defvar font-height
@@ -119,7 +130,7 @@
            (variable-pitch :font "Iosevka Aile" :height ,font-height)))
       (gx/set-face-attribute (car face) (cdr face))))
 
-  (if (daemonp)
+  (if (server-running-p)
       (add-hook 'after-make-frame-functions
                 (lambda (frame)
                   (with-selected-frame frame

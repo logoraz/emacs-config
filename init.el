@@ -3,11 +3,11 @@
 ;;; Commentary:
 ;;;
 ;;; gxEMAX framework/initializations
-;;; |--> EXWM & Wayland compatible
+;;; |--> gnu/linux & windows-nt
 
 
 ;;; Code:
-(require 'server)
+
 
 
 ;;; gexwm System-Wide Variables & Environment Establishment
@@ -15,7 +15,7 @@
 ;;; user-emacs-directory --> ~/.cache/emacs/ (early-init)
 
 (defgroup gxemacs nil
-  "Grafted-X Emacs Configuration."
+  "Grafted-X Emacs (gxEmacs) Configuration."
   :tag "gxEMACS"
   :link '(url-link "")
   :group 'emacs)
@@ -125,10 +125,6 @@ Should be loaded after gx/lazarus--hookfn --> `early-init'."
 (require 'gx-org)
 (if (eq system-type 'gnu/linux) (require 'gx-mail))
 (if (eq gx-exwm? t) (require 'gx-desktop))
-
-;; Start Emacs Server Daemon if not already started
-(unless (daemonp)
-  (server-start))
 
 
 
