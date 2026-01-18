@@ -118,6 +118,7 @@ Should be loaded after gx/lazarus--hookfn --> `early-init'."
 (require 'gx-base)
 (require 'gx-completions)
 (require 'gx-dired)
+(require 'gx-vcs)
 (require 'gx-clide)
 
 ;; Office/Mail/Chat
