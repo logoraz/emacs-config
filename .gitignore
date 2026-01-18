@@ -5,8 +5,9 @@ projects*
 /elpa/*
 
 ## Extensions
-/elisp/flycheck*
-/elisp/ocicl*
+/syntax/*.elc
+/syntax/flycheck*
+/syntax/ocicl*
 
 ## Modules
 /modules/flycheck*

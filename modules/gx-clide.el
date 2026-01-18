@@ -167,16 +167,35 @@
   (inferior-lisp-program (executable-find "sbcl")
                          "Set default lisp to Steel Bank Common Lisp.")
   :config
+  ;; Disable Sylvester the cat
+  (setq sly-mrepl-pop-sylvester nil)
+
   ;; Provide proper syntax highlighting for `defsystem'
-  (font-lock-add-keywords 'lisp-mode
-  '(("(\\s-*\\(defsystem\\)\\>" 1 font-lock-keyword-face prepend)))
+  (font-lock-add-keywords
+   'lisp-mode
+   '(("(\\s-*\\(defsystem\\)\\>" 1 font-lock-keyword-face prepend)))
 
   ;; Invoke SLY with a negative prefix argument, M-- M-x sly,
   ;; and you can select a program from that list.
   (setq sly-lisp-implementations
         `((sbcl (,(executable-find "sbcl")))))
 
-  ;; (add-to-list 'sly-contribs 'sly-asdf)
+  ;; Ensure history file exists
+  (let ((history-file (expand-file-name "var/sly/mrepl-history"
+                                        gx-xdg-cache-home)))
+    (make-directory (file-name-directory history-file) t)
+    (unless (file-exists-p history-file)
+      (write-region "" nil history-file)))
+
+  ;; Open Sly mREPL in background
+  (setq display-buffer-alist
+        (cons '("\\*sly-mrepl"
+                (display-buffer-no-window)
+                (allow-no-window . t))
+              display-buffer-alist))
+
+  (add-to-list 'beframe-global-buffers
+               "\\*sly-mrepl")
 
   ;; See: https://joaotavora.github.io/sly/#Loading-Slynk-faster
   (defun gx/sly-auto-connect ()
