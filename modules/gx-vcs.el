@@ -5,11 +5,27 @@
 
 ;;; Code:
 
+;;; Git Porcelain
+(use-package magit
+  :defer 2
+  :ensure (magit :pin melpa)
+  :custom
+  (magit-clone-always-transient nil)
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
+  (vc-follow-symlinks t)
+  :config
+  (setq auto-revert-verbose nil)
+  (gx/ignore-messages
+    (global-auto-revert-mode)))
+
+
+;;; Emacs VCS fallback configuration
 (use-package vc
+  :disabled
   :ensure nil
   :custom
   (vc-follow-symlinks t)
-  (vc-handled-backends '(Git))          ; Only use Git backend
+  (vc-handled-backends '(Git)) ; Only use Git backend
   :bind
   (("C-x g"   . vc-dir)
    ("C-c g s" . vc-dir)
@@ -25,12 +41,14 @@
 
 ;; Better diff colors
 (use-package diff-mode
+  :disabled
   :ensure nil
   :custom
   (diff-font-lock-prettify t))
 
 ;; Git-specific settings
 (use-package vc-git
+  :disabled
   :ensure nil
   :after vc
   :bind
@@ -53,37 +71,7 @@
     "Force push to remote."
     (interactive)
     (let ((default-directory (vc-root-dir)))
-      (shell-command "git push --force-with-lease")))
-)
-
-;; Git Rebase Mode
-(use-package git-rebase
-  :ensure nil
-  :if (eq system-type 'gnu/linux))
-
-(use-package git-modes
-  :ensure t
-  :if (eq system-type 'windows-nt)
-  :config
-  (setq git-rebase-show-instructions nil))
-
-
-;; Fall back to external Version Control via Magit
-;; :TODO/260118 - Pending Remove
-;; :objective to obtain a more portable configuration accross gnu/linux & windows
-(unless (eq system-type 'windows-nt)
-  (use-package magit
-    :disabled ; use emacs vc for now to optimize configuration
-    :defer 2
-    :ensure (magit :pin melpa)
-    :custom
-    (magit-clone-always-transient nil)
-    (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
-    (vc-follow-symlinks t)
-    :config
-    (setq auto-revert-verbose nil)
-    (gx/ignore-messages
-      (global-auto-revert-mode))))
+      (shell-command "git push --force-with-lease"))))
 
 
 

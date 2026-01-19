@@ -60,7 +60,7 @@
                  (expand-file-name ".sbclrc" "~") t)))
   (message "SBCLRC deployed"))
 
-(gx/deploy-sbclrc)
+;; (gx/deploy-sbclrc)
 
 
 

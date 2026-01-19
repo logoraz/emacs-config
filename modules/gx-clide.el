@@ -110,11 +110,6 @@
   (flycheck-global-modes '(emacs-lisp-mode scheme-mode))
   (flycheck-checker-error-threshold 2000 "Increase error threshold."))
 
-;; #:TODO/250901 --> provide better configuration here...
-(unless (eq system-type 'windows-nt)
-  (use-package vterm
-    :ensure t))
-
 (use-package colorful-mode
   :ensure t
   :diminish
