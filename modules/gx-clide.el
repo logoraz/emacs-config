@@ -127,8 +127,9 @@
   ;; :ensure (xr :pin melpa)
   :ensure t)
 
-(use-package project
-  :disabled)
+(use-package eat
+  :if (eq system-type 'gnu/linux)
+  :ensure t)
 
 
 
