@@ -89,6 +89,7 @@
 (use-package undo-tree
   :ensure (undo-tree :pin gnu)
   :diminish undo-tree-mode
+  :hook (emacs-startup . undo-tree-mode)
   :custom
   (undo-tree-history-directory-alist
    `(("." . ,(expand-file-name "undo-tree-hist/"
@@ -105,14 +106,16 @@
 (use-package flycheck
   :ensure t
   :diminish
-  :init (global-flycheck-mode)
+  :hook ((emacs-lisp-mode lisp-mode scheme-mode) . flycheck-mode)
+  ;; :init (global-flycheck-mode)
   :custom
-  (flycheck-global-modes '(emacs-lisp-mode scheme-mode))
+  ;; (flycheck-global-modes '(emacs-lisp-mode scheme-mode))
   (flycheck-checker-error-threshold 2000 "Increase error threshold."))
 
 (use-package colorful-mode
   :ensure t
   :diminish
+  :hook (lisp-mode . colorful-mode)
   :custom
   (colorful-use-prefix t)
   (colorful-only-strings 'only-prog)
@@ -122,15 +125,43 @@
   (add-to-list 'global-colorful-modes 'helpful-mode))
 
 (use-package xr
+  :after rx
   ;; converts regex strings to rx sexp syntax
   ;; https://github.com/mattiase/xr
   ;; :ensure (xr :pin melpa)
   :ensure t)
 
+;;; Shells
 (use-package eat
   :if (eq system-type 'gnu/linux)
   :ensure t)
 
+(use-package shell
+  :if (eq system-type 'windows-nt)
+  :ensure nil
+  :hook (shell-mode . corfu-mode)
+  :init
+  ;; Use PowerShell 7 for `M-x shell`
+  (setq explicit-shell-file-name
+        (concat "C:/Program Files/WindowsApps/"
+                "Microsoft.PowerShell_7.5.4.0_x64__8wekyb3d8bbwe/pwsh.exe"))
+
+  ;; Arguments passed to pwsh.exe
+  ;; (setq explicit-pwsh.exe-args '("-NoLogo" "-NoProfile"))
+
+  ;; Ensure subprocesses use pwsh too
+  (setq shell-file-name explicit-shell-file-name)
+
+  :config
+  ;; Optional: improve shell-mode behavior
+  (add-hook 'shell-mode-hook
+            (lambda ()
+              (setq comint-prompt-read-only t
+                    comint-scroll-to-bottom-on-input t)
+              ;; Avoid command echo odities in some shells
+              (setq-local comint-process-echoes t)
+              ;; Ensure TAB goes through completion at point...
+              (keymap-set shell-mode-map "TAB" #'completion-at-point))))
 
 
 ;;; Common Lisp IDE
@@ -188,6 +219,7 @@
 
 ;; Neotree for Lem-like lisp IDE
 (use-package neotree
+  :defer 2
   :ensure t
   :config
   (setq neo-smart-open t

@@ -207,6 +207,7 @@
 ;;; 2. create file with the following entry:
 ;;; %%(org-diary) /home/logoraz/Documents/org/calendar.org
 (use-package calendar
+  :after org
   :custom
   (calendar-mark-diary-entries-flag t)
   (diary-file (expand-file-name "diary" *gx-org-denote-directory*)))

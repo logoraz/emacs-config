@@ -36,6 +36,8 @@
 
 ;;; History
 (use-package savehist
+  :defer 2
+  :ensure nil
   :diminish savehist-mode
   :custom
   (savehist-save-minibuffer-history t)
@@ -47,11 +49,14 @@
 
 ;; Bookmarks
 (use-package bookmark
+  :defer 2
+  :ensure nil
   :custom
   (bookmark-default-file (expand-file-name "bookmarks" gx-var-directory)))
 
 ;;; Recent Files
 (use-package recentf
+  :defer 2
   ;; TODO: Optimize use-package configuration for this!
   :diminish recentf-mode
   :init
@@ -74,6 +79,8 @@
 
 ;;; Info Files (Xtra)
 (use-package info
+  :defer 2
+  :ensure nil
   :init
   (make-directory (expand-file-name "info" gx-xdg-cache-home) t)
   :config
@@ -168,9 +175,11 @@
 ;; (load-theme 'kanagawa t)
 ;; https://github.com/tinted-theming/base16-emacs
 (use-package all-the-icons
+  :defer 2
   :ensure t)
 
 (use-package nerd-icons
+  :defer 1
   :ensure t
   :config
   ;; changes for newer version of nerd-icons
@@ -243,8 +252,8 @@
 
 
 ;;; Tabs (optional)
-;;; minimal configuration for tab-bar --> see EXWM module
 (use-package tab-bar
+  :disabled ; Not currently using tab-bar
   :custom
   (tab-bar-show 1))
 
@@ -313,6 +322,7 @@
                '("*Buffer List*" . (display-buffer-same-window))))
 
 (use-package ace-window
+  :defer 2
   :ensure
   :bind ("M-o" . 'ace-window))
 
