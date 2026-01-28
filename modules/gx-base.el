@@ -171,6 +171,7 @@
   :ensure t)
 
 (use-package nerd-icons
+  :defer 1
   :ensure t
   :config
   ;; changes for newer version of nerd-icons

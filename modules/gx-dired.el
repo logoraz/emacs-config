@@ -10,9 +10,11 @@
 
 ;;; Main Dired setup
 
-(use-package dired)
+(use-package dired
+  :defer 2)
 
 (use-package dired-x
+  :defer 2
   ;; package provides dired-jump (C-x C-j)
   :after (dired)
   ;; :hook (dired-mode . dired-omit-mode)
@@ -23,6 +25,7 @@
   )
 
 (use-package image-dired
+  :defer 2
   :custom ((image-dired-thumb-size 256)
            (image-dired-thumbnail-storage 'standard-large)))
 
@@ -32,11 +35,13 @@
 ;;; DIRED Extensions --> Prettify & Mutimedia Support
 
 (use-package all-the-icons-dired
+  :defer 2
   :ensure t
   ;; :hook (dired-mode . all-the-icons-dired-mode)
   )
 
 (use-package dired-preview
+  :defer 2
   :ensure t
   :after (dired image-dired)
   ;; https://protesilaos.com/emacs/dired-preview
@@ -60,6 +65,7 @@
                 "\\)")))
 
 (use-package ready-player
+  :defer 5
   ;; currently not available in guix
   ;; https://github.com/xenodium/ready-player
   ;; For some reason use-package is not able to successfuly retreive/load
