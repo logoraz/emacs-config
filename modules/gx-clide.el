@@ -89,14 +89,13 @@
 (use-package undo-tree
   :ensure (undo-tree :pin gnu)
   :diminish undo-tree-mode
-  :hook (emacs-startup . undo-tree-mode)
+  :hook (emacs-startup . global-undo-tree-mode)
   :custom
   (undo-tree-history-directory-alist
    `(("." . ,(expand-file-name "undo-tree-hist/"
                                gx-var-directory))))
   :config
-  (setq kill-do-not-save-duplicates t)
-  (global-undo-tree-mode))
+  (setq kill-do-not-save-duplicates t))
 
 (use-package ws-butler
   :ensure t
@@ -106,10 +105,10 @@
 (use-package flycheck
   :ensure t
   :diminish
+  ;; better than using flycheck-global-modes as it defers loading
+  ;; optimizing Emacs startup!!
   :hook ((emacs-lisp-mode lisp-mode scheme-mode) . flycheck-mode)
-  ;; :init (global-flycheck-mode)
   :custom
-  ;; (flycheck-global-modes '(emacs-lisp-mode scheme-mode))
   (flycheck-checker-error-threshold 2000 "Increase error threshold."))
 
 (use-package colorful-mode
@@ -139,7 +138,11 @@
 (use-package shell
   :if (eq system-type 'windows-nt)
   :ensure nil
-  :hook (shell-mode . corfu-mode)
+  :hook (;;(shell-mode . corfu-mode)
+         (shell-mode . gx/shell-config))
+  :bind (:map shell-mode-map
+              ;;("TAB"   . completion-at-point)
+              ("C-c l" . cmint-clear-buffer))
   :init
   ;; Use PowerShell 7 for `M-x shell`
   (setq explicit-shell-file-name
@@ -153,15 +156,36 @@
   (setq shell-file-name explicit-shell-file-name)
 
   :config
-  ;; Optional: improve shell-mode behavior
-  (add-hook 'shell-mode-hook
-            (lambda ()
-              (setq comint-prompt-read-only t
+  (defun gx/shell-config ()
+    "Improve shell-mode behavior"
+    (setq comint-prompt-read-only t
                     comint-scroll-to-bottom-on-input t)
               ;; Avoid command echo odities in some shells
-              (setq-local comint-process-echoes t)
-              ;; Ensure TAB goes through completion at point...
-              (keymap-set shell-mode-map "TAB" #'completion-at-point))))
+              (setq-local comint-process-echoes t)))
+
+(use-package neotree
+  :defer 2
+  :ensure t
+  :config
+  (setq neo-smart-open t
+        neo-show-hidden-files t
+        neo-window-width 35
+        neo-mode-line-type 'none
+        neo-window-fixed-size nil
+        inhibit-compacting-font-caches t)
+
+  (setq neo-theme (if (display-graphic-p) 'nerd-icons 'arrow))
+
+
+  ;; truncate long file names in neotree
+  (add-hook 'neo-after-create-hook
+            #'(lambda (_)
+                (with-current-buffer (get-buffer neo-buffer-name)
+                  (setq truncate-lines t)
+                  (setq word-wrap nil)
+                  (make-local-variable 'auto-hscroll-mode)
+                  (setq auto-hscroll-mode nil)))))
+
 
 
 ;;; Common Lisp IDE
@@ -216,30 +240,6 @@
     (interactive)
     (unless (sly-connected-p)
       (save-excursion (sly)))))
-
-;; Neotree for Lem-like lisp IDE
-(use-package neotree
-  :defer 2
-  :ensure t
-  :config
-  (setq neo-smart-open t
-        neo-show-hidden-files t
-        neo-window-width 35
-        neo-mode-line-type 'none
-        neo-window-fixed-size nil
-        inhibit-compacting-font-caches t)
-
-  (setq neo-theme (if (display-graphic-p) 'nerd-icons 'arrow))
-
-
-  ;; truncate long file names in neotree
-  (add-hook 'neo-after-create-hook
-            #'(lambda (_)
-                (with-current-buffer (get-buffer neo-buffer-name)
-                  (setq truncate-lines t)
-                  (setq word-wrap nil)
-                  (make-local-variable 'auto-hscroll-mode)
-                  (setq auto-hscroll-mode nil)))))
 
 
 
@@ -305,9 +305,23 @@
         (ignore-errors
          (sesman-link-with-least-specific))))))
 
+
+;; OTLS - Other Than Lisp Support
+
+;; VBA
+(use-package vba-mode
+  :vc (:url "https://github.com/ayanyan/vba-mode.git" :rev :newest)
+  :mode ("\\.\\(vba\\|bas\\|cls\\|frm\\)\\'" . vba-mode)
+  :hook ((vba-mode . font-lock-mode)
+         (vba-mode . gx/vba-config))
+  :config
+  (defun gx/vba-config ()
+    "Set configuration for vba"
+    (setq-local tab-width 4
+                indent-tabs-mode nil)
+    (setq vba-mode-indent 4)))
 
 
-
 
 (provide 'gx-clide)
 ;;; gx-clide.el ends here
