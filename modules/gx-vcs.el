@@ -7,7 +7,7 @@
 
 ;;; Git Porcelain
 (use-package magit
-  :defer 2
+  :defer t
   :ensure (magit :pin melpa)
   :custom
   (magit-clone-always-transient nil)

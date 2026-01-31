@@ -124,7 +124,7 @@
   (add-to-list 'global-colorful-modes 'helpful-mode))
 
 (use-package xr
-  :after rx
+  :defer t
   ;; converts regex strings to rx sexp syntax
   ;; https://github.com/mattiase/xr
   ;; :ensure (xr :pin melpa)
@@ -142,7 +142,7 @@
          (shell-mode . gx/shell-config))
   :bind (:map shell-mode-map
               ;;("TAB"   . completion-at-point)
-              ("C-c l" . cmint-clear-buffer))
+              ("C-c l" . comint-clear-buffer))
   :init
   ;; Use PowerShell 7 for `M-x shell`
   (setq explicit-shell-file-name
@@ -164,7 +164,7 @@
               (setq-local comint-process-echoes t)))
 
 (use-package neotree
-  :defer 2
+  :defer t
   :ensure t
   :config
   (setq neo-smart-open t
