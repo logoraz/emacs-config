@@ -36,8 +36,8 @@
 
 ;;; History
 (use-package savehist
-  :defer t
   :ensure nil
+  :defer t
   :diminish savehist-mode
   :custom
   (savehist-save-minibuffer-history t)
@@ -49,13 +49,14 @@
 
 ;; Bookmarks
 (use-package bookmark
-  :defer t
   :ensure nil
+  :defer t
   :custom
   (bookmark-default-file (expand-file-name "bookmarks" gx-var-directory)))
 
 ;;; Recent Files
 (use-package recentf
+  :ensure nil
   :defer t
   ;; TODO: Optimize use-package configuration for this!
   :diminish recentf-mode
@@ -79,8 +80,8 @@
 
 ;;; Info Files (Xtra)
 (use-package info
-  :defer t
   :ensure nil
+  :defer t
   :init
   (make-directory (expand-file-name "info" gx-xdg-cache-home) t)
   :config
@@ -181,12 +182,12 @@
 ;; (load-theme 'kanagawa t)
 ;; https://github.com/tinted-theming/base16-emacs
 (use-package all-the-icons
-  :defer t
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package nerd-icons
-  :defer t
   :ensure t
+  :defer t
   :config
   ;; changes for newer version of nerd-icons
   (add-to-list
@@ -215,8 +216,8 @@
    '(lisp-mode nerd-icons-sucicon "nf-custom-common_lisp" :face nerd-icons-silver)))
 
 (use-package doom-modeline
-  :defer t
   :ensure t
+  :defer t
   :init (doom-modeline-mode 1)
   :custom
   (doom-modeline-height 32)
@@ -261,6 +262,7 @@
 ;;; Tabs (optional)
 (use-package tab-bar
   :disabled ; Not currently using tab-bar
+  :ensure t
   :custom
   (tab-bar-show 1))
 
@@ -311,11 +313,12 @@
 
 (use-package beframe
   ;; Use beframe to handle desktops
-  :ensure
+  :ensure t
+  :defer t
   :diminish beframe-mode
   :bind (("C-c b"   . beframe-transient)
          ("C-c f o" . make-frame-command)
-         ("C-c f x" . delete-frame))
+         ("C-c f e" . delete-frame))
   :hook ((Buffer-menu-mode . gx/buffer-menu-colorize))
   :custom
   (beframe-global-buffers
@@ -382,8 +385,8 @@ Returns specified color  for global buffers, frame-specific color otherwise."
                   (gx/buffer-menu-colorize)))))
 
 (use-package ace-window
+  :ensure t
   :defer t
-  :ensure
   :bind ("M-o" . 'ace-window))
 
 

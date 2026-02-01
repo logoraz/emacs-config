@@ -20,13 +20,6 @@
   :link '(url-link "")
   :group 'emacs)
 
-;; Set GUIX packages to Emacs Load Path
-(defcustom gx-emacs-packages-path
-  (expand-file-name "~/.guix-home/profile/share/emacs/site-lisp/")
-  "Guix Home Profile Emacs Packages PATH."
-  :type 'string
-  :group 'gxemacs)
-
 (defcustom gx-var-directory
   (expand-file-name "var" user-emacs-directory)
   "Default var directory."
@@ -49,6 +42,12 @@
   :type 'string
   :group 'gxemacs)
 
+;; Create .cache directories to avoid prompts for their creation during initial
+;; Emacs installation:
+(make-directory gx-etc-directory t)
+(make-directory gx-var-directory t)
+
+
 ;; Add the modules directory to the load path
 (add-to-list 'load-path gx-modules-directory)
 
@@ -68,22 +67,20 @@
 ;; 1. How many packages were loaded,
 ;; 2. What stage of initialization they've reached,
 ;; 3. How much aggregate time they've spend (roughly).
-(gx/setopts use-package-compute-statistics t "Enable use-package statistics.")
+(gx/use-modules use-package)
+
+(gx/setopts use-package-compute-statistics t "Enable use-package statistics."
+            use-package-catch-errors t "Catch errors during package installation.")
 
 
 
 ;;; Load Config Modules
-(gx/setopts debug-on-error t "Set debugging on error as default!")
-
-
-;; Foundation Modules
-(require 'gx-base)
-(require 'gx-completions)
-(require 'gx-dired)
-(require 'gx-vcs)
-(require 'gx-clide)
-(require 'gx-org)
-
+(gx/use-modules gx-base
+                gx-completions
+                gx-dired
+                gx-vcs
+                gx-clide
+                gx-org)
 
 
 

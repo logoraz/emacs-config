@@ -31,10 +31,12 @@
 (delete-selection-mode)
 
 (use-package display-line-numbers
+  :ensure nil
   :hook ((scheme-mode lisp-mode emacs-lisp-mode)
          . display-line-numbers-mode))
 
 (use-package display-fill-column-indicator
+  :ensure nil
   ;; TODO: Customize theme color for this element -> via ':config' keyword
   :diminish
   ;; Only activate for lisp-mode
@@ -48,10 +50,12 @@
   (gx/set-face-attribute 'fill-column-indicator '(:foreground "#3f4040")))
 
 (use-package eldoc
+  :ensure nil
   :defer t
   :diminish eldoc-mode)
 
 (use-package ediff
+  :ensure nil
   :defer t
   :custom
   (ediff-split-window-function 'split-window-horizontally)
@@ -124,11 +128,8 @@
   (add-to-list 'global-colorful-modes 'helpful-mode))
 
 (use-package xr
-  :defer t
-  ;; converts regex strings to rx sexp syntax
-  ;; https://github.com/mattiase/xr
-  ;; :ensure (xr :pin melpa)
-  :ensure t)
+  :ensure t
+  :defer t)
 
 ;;; Shells
 (use-package eat
@@ -138,10 +139,8 @@
 (use-package shell
   :if (eq system-type 'windows-nt)
   :ensure nil
-  :hook (;;(shell-mode . corfu-mode)
-         (shell-mode . gx/shell-config))
+  :hook (shell-mode . gx/shell-config)
   :bind (:map shell-mode-map
-              ;;("TAB"   . completion-at-point)
               ("C-c l" . comint-clear-buffer))
   :init
   ;; Use PowerShell 7 for `M-x shell`
@@ -150,7 +149,7 @@
                 "Microsoft.PowerShell_7.5.4.0_x64__8wekyb3d8bbwe/pwsh.exe"))
 
   ;; Arguments passed to pwsh.exe
-  ;; (setq explicit-pwsh.exe-args '("-NoLogo" "-NoProfile"))
+  (setq explicit-pwsh.exe-args '())
 
   ;; Ensure subprocesses use pwsh too
   (setq shell-file-name explicit-shell-file-name)
@@ -164,8 +163,8 @@
               (setq-local comint-process-echoes t)))
 
 (use-package neotree
-  :defer t
   :ensure t
+  :defer t
   :config
   (setq neo-smart-open t
         neo-show-hidden-files t

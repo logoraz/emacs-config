@@ -9,7 +9,9 @@
 
 
 
+;;;
 ;;; Bootstrap
+;;;
 (defvar gx-xdg-config-home
   (let ((config-dir
          (pcase system-type
@@ -35,8 +37,13 @@
 
 ;; Add language syntax expression to load path and use
 (add-to-list 'load-path gx-syntax-directory)
-(require 'gx-subrx) ;; Always byte-compile this module!
 
+;;; End Bootstrap
+
+;;;
+;;; Import moedules/packages
+;;;
+(require 'gx-subrx) ;; Always byte-compile this module!
 (gx/use-modules package)
 
 ;; Set the `user-emacs-directory` to a writeable path
@@ -66,6 +73,11 @@
     (startup-redirect-eln-cache
      (convert-standard-filename
       (expand-file-name "var/eln-cache/" user-emacs-directory)))))
+
+(gx/setopts byte-compile-warnings nil "Disable byte compile warnings."
+            warning-minimum-level :emergency "Only warn for emergencies."
+            warning-minimum-log-level :emergency "Only warn for emergencies.")
+
 
 
 
@@ -153,8 +165,8 @@
 (defvar gx--base-frame-alist
   (let ((frame-alist
          (pcase system-type
-           ('windows-nt '((alpha . 0)
-                          (undecorated . t)
+           ('windows-nt '((alpha . (95 . 90))
+                          (undecorated . t) ;; prevents intial white
                           (use-frame-synchronization . extended)))
            ('gnu/linux  '((alpha-background . 85)
                           (fullscreen . maximized)
@@ -183,14 +195,16 @@
 (defun gx/avoid-initial-flash-of-light ()
   "Improve Emacs startup appearance, normalize with theme - no white."
   (setq mode-line-format nil)
-  (set-frame-parameter nil 'alpha-background 85)
+  (if (eq system-type 'gnu/linux)
+      (set-frame-parameter nil 'alpha-background 85)
+    (set-frame-parameter nil 'alpha 0))
   (set-face-attribute 'default nil
-                      :background "#1d1f21" :foreground "#d8dee9")
+                      :background "#2e3440" :foreground "#d8dee9")
   (set-face-attribute 'mode-line nil
-                      :background "#1d1f21" :foreground "#d8dee9"
+                      :background "#2e3440" :foreground "#d8dee9"
                       :box 'unspecified)
   (set-face-attribute 'mode-line-inactive nil
-                      :background "#1d1f21" :foreground "#d8dee9"
+                      :background "#233440" :foreground "#d8dee9"
                       :box 'unspecified))
 
 ;; Set Initial UI/UX Configuration for a clean startup experience
@@ -206,10 +220,10 @@
 
   (;;function body
    (with-selected-frame frame
-     (set-frame-parameter nil 'alpha '(95 . 75))
+     (set-frame-parameter nil 'alpha '(95 . 90))
      (set-frame-parameter nil 'undecorated nil)
      (toggle-frame-maximized))
-   (setf (alist-get 'alpha default-frame-alist) '(95 . 75)))
+   (setf (alist-get 'alpha default-frame-alist) '(95 . 90)))
 
   :disable? (eq system-type 'gnu/linux)
   :args (frame)
@@ -218,11 +232,6 @@
 
 
 ;;; Package Management System & Loading Preferences
-;; TODO - Determine how to handle package loading between
-;;         `GUIX' and `package.el' and `use-package' abilities to leverage both
-;;         systems.
-;; https://www.reddit.com/r/emacs/comments/jhb2i6/
-;; guix_the_right_way_to_manage_your_packages/
 
 (gx/setopts package-enable-at-startup t
             "Enable for things to work, greatly impacts startup time."
@@ -242,9 +251,17 @@
               ("gnu"    . 0))  ;; if all else fails, get it from gnu
             "Set package archive preference: melpa > stable > nongnu > gnu")
 
-;; disable for now as it greatly impacts startup!
-(require 'package)
+;; Handle TLS issues (on Windows)
+(when (eq system-type 'windows-nt)
+  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
+
+;; Initialize according to archive settings
 (package-initialize)
+
+;; Refresh package contents if needed
+(unless package-archive-contents
+  (package-refresh-contents))
+
 
 
 

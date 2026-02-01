@@ -27,6 +27,7 @@
   )
 
 (use-package image-dired
+  :ensure nil
   :defer t
   :custom ((image-dired-thumb-size 256)
            (image-dired-thumbnail-storage 'standard-large)))
@@ -37,14 +38,12 @@
 ;;; DIRED Extensions --> Prettify & Mutimedia Support
 
 (use-package all-the-icons-dired
-  :defer t
   :ensure t
-  ;; :hook (dired-mode . all-the-icons-dired-mode)
-  )
+  :defer t)
 
 (use-package dired-preview
-  :defer t
   :ensure t
+  :defer t
   :after (dired image-dired)
   ;; https://protesilaos.com/emacs/dired-preview
   :hook ((dired-preview-mode . dired-hide-details-mode)
@@ -67,13 +66,13 @@
                 "\\)")))
 
 (use-package ready-player
+  :ensure (ready-player :pin melpa)
   :defer t
   ;; currently not available in guix
   ;; https://github.com/xenodium/ready-player
   ;; For some reason use-package is not able to successfuly retreive/load
   ;; this unless I manually install from list-packages
   ;; --> melpa
-  :ensure (ready-player :pin melpa)
   :custom ((ready-player-autoplay nil)
            (ready-player-thumbnail-max-pixel-height 500)))
 

@@ -7,8 +7,8 @@
 
 ;;; Git Porcelain
 (use-package magit
-  :defer t
   :ensure (magit :pin melpa)
+  :defer t
   :custom
   (magit-clone-always-transient nil)
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)

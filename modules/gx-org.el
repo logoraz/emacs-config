@@ -22,6 +22,7 @@
      (add-to-list 'org-capture-templates ',@body)))
 
 (use-package org
+  :ensure nil
   :hook ((org-mode . gx/org-fonts-hookfn)
          (org-mode . gx/org-latex-hookfn))
   :bind (("C-c a" . org-agenda)
@@ -160,10 +161,12 @@
 ;;; Org Accessories
 
 (use-package org-indent
+  :ensure nil
   ;; :diminish org-indent-mode
   :after (org))
 
 (use-package org-tempo
+  :ensure nil
   ;; :diminish org-tempo-mode
   :after (org)
   :config
@@ -207,6 +210,7 @@
 ;;; 2. create file with the following entry:
 ;;; %%(org-diary) /home/logoraz/Documents/org/calendar.org
 (use-package calendar
+  :ensure nil
   :after org
   :custom
   (calendar-mark-diary-entries-flag t)
@@ -235,11 +239,10 @@
   :bind (("C-c n j" . gx/denote-journal)
          ("C-c n n" . denote))
   :custom
-  (denote-directory (expand-file-name *gx-org-denote-directory*))
   (denote-dired-directories-include-subdirectories t)
   (denote-dired-directories
    (list
-    denote-directory
+    (expand-file-name *gx-org-denote-directory*)
     (expand-file-name "notes/inbox" denote-directory)
     (expand-file-name "notes/meetings" denote-directory)
     (expand-file-name "notes/research" denote-directory)
