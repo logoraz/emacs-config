@@ -200,7 +200,8 @@
   :ensure t
   ;; Enable sly IDE for Common Lisp
   :hook ((lisp-mode . sly-editing-mode)
-         (lisp-mode . gx/sly-auto-connect))
+         (lisp-mode . gx/sly-auto-connect)
+         (sly-mode  . gx/sly-completions))
   :custom
   (inferior-lisp-program (executable-find "sbcl")
                          "Set default lisp to Steel Bank Common Lisp.")
@@ -234,6 +235,14 @@
 
   (add-to-list 'beframe-global-buffers
                "\\*sly-mrepl")
+
+    ;; Sly completions
+  (setq sly-symbol-completion-mode nil)
+
+  (defun gx/sly-completions ()
+    "Set flex to completion styles."
+    (setq-local completion-styles '(sly--external-completion basic flex))
+    (sly-symbol-completion-mode -1))
 
   ;; See: https://joaotavora.github.io/sly/#Loading-Slynk-faster
   (defun gx/sly-auto-connect ()

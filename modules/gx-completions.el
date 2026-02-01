@@ -71,7 +71,7 @@
 (use-package corfu
   :ensure t
   :diminish corfu-mode
-  :hook (prog-mode . corfu-mode)
+  :hook ((prog-mode . corfu-mode))
   :custom
   (corfu-cycle t "Enable corfu cycling...")
   (corfu-auto t)
@@ -82,6 +82,9 @@
   (corfu-preselect 'prompt)
   (corfu-on-exact-match nil)
   (corfu-scroll-margin 5)
+  :custom-face
+  (corfu-default ((t (:background "#2e3440" :foreground "#d8dee9"))))
+  (corfu-current ((t (:background "#5e81ac" :foreground "#eceff4"))))
   :config
   ;; Needed for customization/control of other variables that interfere with corfu
   (setq text-mode-ispell-word-completion nil
