@@ -114,13 +114,13 @@
 (use-package colorful-mode
   :ensure t
   :diminish
-  :hook (lisp-mode . colorful-mode)
+  :hook (prog-mode . colorful-mode)
   :custom
   (colorful-use-prefix t)
   (colorful-only-strings 'only-prog)
   (css-fontify-colors nil)
   :config
-  (global-colorful-mode t)
+  ;; (global-colorful-mode t)
   (add-to-list 'global-colorful-modes 'helpful-mode))
 
 (use-package xr

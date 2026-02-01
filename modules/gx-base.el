@@ -314,19 +314,70 @@
   :ensure
   :diminish beframe-mode
   :bind (("C-c b" . beframe-transient))
+  :hook ((Buffer-menu-mode) . gx/buffer-menu-colorize)
   :custom
-  (beframe-global-buffers '("*scratch*"
-                            "*Messages*"
-                            "*Backtrace*"
-                            "*ednc-log*"
-                            "*info*"
-                            "*Ibuffer*"
-                            "*Buffer List*"))
+  (beframe-global-buffers
+   '("*scratch*" "*Messages*" "*Completions*" "*Backtrace*" "*info*"
+     "*Buffer List*" "*Async-native-compile-log*"))
   :init (beframe-mode 1)
   :config
   (setq beframe-create-frame-scratch-buffer nil)
+
   (add-to-list 'display-buffer-alist
-               '("*Buffer List*" . (display-buffer-same-window))))
+               '("*Buffer List*" . (display-buffer-same-window)))
+
+(defvar gx--beframe-colors
+    '("#5e81ac" "#81a1c1" "#88c0d0" "#8fbcbb")
+    "List of colors for different beframes.")
+
+(defvar gx--global-buffer-color "#b48ead"
+  "Color for global buffers in buffer menu.")
+
+(defvar gx--unassociated-buffer-color "#4c566a"
+  "Color for buffers not associated with any frame.")
+
+  (defun gx/beframe-buffer-color (buffer)
+    "Return color for BUFFER based on its beframe association.
+Returns specified color  for global buffers, frame-specific color otherwise."
+    (when (bound-and-true-p beframe-mode)
+      ;; Check if buffer is a global buffer
+      (if (member (buffer-name buffer) beframe-global-buffers)
+          gx--global-buffer-color
+        ;; Otherwise find frame-specific color
+        (let* ((frames (frame-list))
+               (frame-index
+                (cl-position-if
+                 (lambda (frame)
+                   (with-selected-frame frame
+                     (memq buffer (beframe-buffer-list frame))))
+                 frames)))
+          (if frame-index
+              (nth (mod frame-index (length gx--beframe-colors))
+                   gx--beframe-colors)
+            ;; Not associated with any frame
+            gx--unassociated-buffer-color)))))
+
+  (defun gx/buffer-menu-colorize ()
+    "Colorize buffer menu entries by beframe."
+    (when (eq major-mode 'Buffer-menu-mode)
+      (save-excursion
+        (goto-char (point-min))
+        ;; (forward-line 2) ; Skip header lines
+        (while (not (eobp))
+          (when-let* ((buffer (tabulated-list-get-id))
+                      (color (gx/beframe-buffer-color buffer)))
+            (let ((inhibit-read-only t))
+              (add-text-properties
+               (line-beginning-position)
+               (line-end-position)
+               `(face (:foreground ,color :weight bold)))))
+          (forward-line 1)))))
+
+  ;; Add advice once globally, not per buffer
+  (advice-add 'tabulated-list-print :after
+              (lambda (&rest _)
+                (when (eq major-mode 'Buffer-menu-mode)
+                  (gx/buffer-menu-colorize)))))
 
 (use-package ace-window
   :defer t
