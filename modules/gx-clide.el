@@ -201,7 +201,8 @@
   ;; Enable sly IDE for Common Lisp
   :hook ((lisp-mode . sly-editing-mode)
          (lisp-mode . gx/sly-auto-connect)
-         (sly-mode  . gx/sly-completions))
+         (sly-mode  . gx/sly-completions)
+         (sly-mrepl-mode  . gx/register-mrepl-frame))
   :custom
   (inferior-lisp-program (executable-find "sbcl")
                          "Set default lisp to Steel Bank Common Lisp.")
@@ -233,10 +234,13 @@
                 (allow-no-window . t))
               display-buffer-alist))
 
-  (add-to-list 'beframe-global-buffers
-               "\\*sly-mrepl")
+  ;; Register sly mrepl buffer with the frame it is openned with instead of it
+  ;; being considered unassociated from setting it to the background..
+  (defun gx/register-mrepl-frame ()
+    "Associates sly-mrepl buffer  with the curent frame."
+    (beframe-assume-buffers-matching-regexp-all-frames "\\*sly-mrepl"))
 
-    ;; Sly completions
+  ;; Sly completions
   (setq sly-symbol-completion-mode nil)
 
   (defun gx/sly-completions ()

@@ -313,8 +313,10 @@
   ;; Use beframe to handle desktops
   :ensure
   :diminish beframe-mode
-  :bind (("C-c b" . beframe-transient))
-  :hook ((Buffer-menu-mode) . gx/buffer-menu-colorize)
+  :bind (("C-c b"   . beframe-transient)
+         ("C-c f o" . make-frame-command)
+         ("C-c f x" . delete-frame))
+  :hook ((Buffer-menu-mode . gx/buffer-menu-colorize))
   :custom
   (beframe-global-buffers
    '("*scratch*" "*Messages*" "*Completions*" "*Backtrace*" "*info*"
