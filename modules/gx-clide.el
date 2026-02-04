@@ -327,11 +327,58 @@
   :hook ((vba-mode . font-lock-mode)
          (vba-mode . gx/vba-config))
   :config
+
+  ;; Hacks to fix where vba-mode gets it wrong.
+  ;; TOTO:--> fork repo and correct therein
   (defun gx/vba-config ()
     "Set configuration for vba"
     (setq-local tab-width 4
                 indent-tabs-mode nil)
-    (setq vba-mode-indent 4)))
+    (setq vba-mode-indent 4))
+
+  ;; Add highlighting for the keyword "Const"
+  (font-lock-add-keywords
+   'vba-mode
+   '(("\\<Const\\>" . font-lock-constant-face)
+
+     ;; Compiler metadata
+     ("\\<Attribute\\>" . font-lock-preprocessor-face)
+
+     ;; Runtime builtin
+     ("\\<DoEvents\\>" . font-lock-builtin-face)
+
+     ;; Declaration/structural keywords (match Dim)
+     ("\\<WithEvents\\>" . font-lock-type-face)
+     ("\\<Implements\\>" . font-lock-type-face)
+     ("\\<Enum\\>"       . font-lock-type-face)
+     ("\\<Type\\>"       . font-lock-type-face)
+     ("\\<ReDim\\>"      . font-lock-type-face)
+
+     ;; Parameter modifiers
+     ("\\<Optional\\>" . font-lock-keyword-face)
+     ("\\<ByRef\\>"    . font-lock-keyword-face)
+     ("\\<ByVal\\>"    . font-lock-keyword-face)
+
+     ;; Misc keywords
+     ("\\<Erase\\>"   . font-lock-keyword-face)
+     ("\\<Static\\>"  . font-lock-keyword-face)
+     ("\\<Declare\\>" . font-lock-keyword-face)
+     ("\\<PtrSafe\\>" . font-lock-keyword-face)
+     ("\\<Lib\\>"     . font-lock-keyword-face)
+     ("\\<Alias\\>"   . font-lock-keyword-face)
+
+     ;; Property blocks
+     ("\\<Property[ \t]+Get\\>" . font-lock-keyword-face)
+     ("\\<Property[ \t]+Let\\>" . font-lock-keyword-face)
+     ("\\<Property[ \t]+Set\\>" . font-lock-keyword-face)))
+
+  ;;Prevent keyword auto-capitalization inside comments and strings
+  (advice-add
+   'expand-abbrev :around
+   (lambda (orig-fun &rest args)
+     (unless (nth 8 (syntax-ppss)) ;; inside comment or string?
+       (apply orig-fun args)))))
+
 
 
 

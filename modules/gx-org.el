@@ -243,12 +243,12 @@
   (denote-dired-directories
    (list
     (expand-file-name *gx-org-denote-directory*)
-    (expand-file-name "notes/inbox" denote-directory)
-    (expand-file-name "notes/meetings" denote-directory)
-    (expand-file-name "notes/research" denote-directory)
-    (expand-file-name "notes/reference" denote-directory)
-    (expand-file-name "notes/scratch" denote-directory)
-    (expand-file-name "notes/trash" denote-directory)))
+    (expand-file-name "notes/inbox"     *gx-org-denote-directory*)
+    (expand-file-name "notes/meetings"  *gx-org-denote-directory*)
+    (expand-file-name "notes/research"  *gx-org-denote-directory*)
+    (expand-file-name "notes/reference" *gx-org-denote-directory*)
+    (expand-file-name "notes/scratch"   *gx-org-denote-directory*)
+    (expand-file-name "notes/trash"     *gx-org-denote-directory*)))
   (denote-known-keywords '("emacs"
                            "ideas"
                            "journal"
