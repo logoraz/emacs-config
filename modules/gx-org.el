@@ -239,6 +239,7 @@
   :bind (("C-c n j" . gx/denote-journal)
          ("C-c n n" . denote))
   :custom
+  (denote-directory *gx-org-denote-directory* )
   (denote-dired-directories-include-subdirectories t)
   (denote-dired-directories
    (list
