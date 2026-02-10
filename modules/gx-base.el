@@ -131,7 +131,7 @@
     (let ((height
            (pcase system-type
              ('windows-nt 90)
-             ('gnu/linux  110)
+             ('gnu/linux  100)
              (_           110))))
       height)
     "Set the font height based on system-type.")

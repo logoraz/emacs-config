@@ -320,6 +320,11 @@
 
 ;; OTLS - Other Than Lisp Support
 
+;; Nix
+(use-package nix-mode
+  :vc (:url "https://github.com/NixOS/nix-mode.git" :rev :newest)
+  :mode "\\.nix\\'")
+
 ;; VBA
 (use-package vba-mode
   :vc (:url "https://github.com/ayanyan/vba-mode.git" :rev :newest)
