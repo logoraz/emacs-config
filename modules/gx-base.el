@@ -18,6 +18,17 @@
 ;;; File Settings: Auto Save, Backups, History, Bookmark, Recent Files,
 ;;; & Minibuffer control
 
+;;; Open files with sudo
+(defun gx/sudo-edit-current-file ()
+  "Edit the current file using sudo."
+  (interactive)
+  (unless buffer-file-name
+    (user-error "Current buffer is not visiting a file"))
+  (find-alternate-file (concat "/sudo::" buffer-file-name)))
+
+(unless (eq system-type 'gnu/linix)
+  (global-set-key (kbd "C-c s") #'gx/sudo-edit-current-file))
+
 ;;; Auto Save: Prefix for generating auto-save-list-file-name
 ;; see - `auto-save-list-file-name'
 (setq auto-save-list-file-prefix (expand-file-name "auto-save/.saves-"

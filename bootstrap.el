@@ -60,7 +60,8 @@
                  (expand-file-name ".sbclrc" "~") t)))
   (message "SBCLRC deployed"))
 
-;; (gx/deploy-sbclrc)
+(if (eq system-type 'gnu/linux) (gx/deploy-config))
+
 
 
 
