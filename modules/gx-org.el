@@ -154,7 +154,13 @@
              ("json"      . json)
              ("conf-unix" . conf-unix)
              ("conf-xorg" . conf-xdefaults)))
-    (push lang org-src-lang-modes)))
+    (push lang org-src-lang-modes))
+
+  (defun gx/org-export-html-to-dir (dir)
+    "Export current Org file to HTML in DIR."
+    (interactive "DExport to directory: ")
+    (let ((default-directory dir))
+      (org-html-export-to-html))))
 
 
 
