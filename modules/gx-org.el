@@ -61,7 +61,7 @@
    '(;; List Keywords
      (sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)" "HOLD(h)" "WAIT(w)")
      ;; Workout Keywords
-     (sequence "GOTO(g)" "|" "CHEAT(t)" "REST(r)" "COMPLETE(e@/!)")
+     (sequence "GOTO(g)" "|" "ZONE(z)" "REST(r)" "COMPLETE(e@/!)")
      ;; Project Keywords
      (sequence "ACTIVE(a@/!)" "|" "CANCELED(c@/!)" "ARCHIVED(r@/!)")))
   ;; view color options via `M-x' `list-colors-display'
@@ -73,7 +73,7 @@
      ("WAIT" . "#ff69b4")               ; HotPink
      ("HOLD" . "#ff6347")               ; tomato
      ("DONE" . "#3cb371")               ; MediumSeaGreen
-     ("CHEAT" . "#bf616a")              ; Aurora red
+     ("ZONE" . "#8fbcbb")               ; Frost green
      ("ACTIVE"    . "#7fffd4")          ; aquamarine
      ("COMPLETE"  . "#a3be8c")          ; Aurora green
      ("CANCELED"  . "#81a1c1")          ; Frost blue
