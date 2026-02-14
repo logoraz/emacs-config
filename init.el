@@ -80,7 +80,8 @@
                 gx-dired
                 gx-vcs
                 gx-clide
-                gx-org)
+                gx-org
+                gx-vibe)
 
 
 

@@ -33,7 +33,7 @@
   (sb-aclrepl:alias ("quit" 0 "Quit REPL") () (quit)))
 
 ;; Enable Colorized REPL
-;; (setf *print-pretty* t)
+(setf *print-pretty* t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -54,15 +54,15 @@
 ;; I wrap this initializing with `ignore-errors` so that the CL implementation
 ;; fails quietly...
 
-#-ocicl
-(ignore-errors
-  (when (probe-file (uiop:xdg-data-home #P"ocicl/ocicl-runtime.lisp"))
-    (load (uiop:xdg-data-home #P"ocicl/ocicl-runtime.lisp")))
-  (asdf:initialize-source-registry
-   (list :source-registry
-         ;; Needed to store non-available ocicl systems in ocicl/
-         (list :tree (uiop:getcwd))
-         :inherit-configuration)))
+;; #-ocicl
+;; (ignore-errors
+;;   (when (probe-file (uiop:xdg-data-home #P"ocicl/ocicl-runtime.lisp"))
+;;     (load (uiop:xdg-data-home #P"ocicl/ocicl-runtime.lisp")))
+;;   (asdf:initialize-source-registry
+;;    (list :source-registry
+;;          ;; Needed to store non-available ocicl systems in ocicl/
+;;          (list :tree (uiop:getcwd))
+;;          :inherit-configuration)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
