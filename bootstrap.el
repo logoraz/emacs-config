@@ -45,22 +45,34 @@
   (gx/create-symlink "~/Work/emacs-config" "~/.config/emacs")
   (message "Bootstrap complete!"))
 
-(if (eq system-type 'gnu/linux) (gx/deploy-config))
-
 (defun gx/deploy-sbclrc ()
   "Copy reference sbclrc, SOURCE, to DESTINATION."
   (pcase system-type
-    ('windows-nt (copy-file
+    ('windows-nt (gx/create-symlink
                   (expand-file-name "dot-sbclrc-windows.lisp"
                                     "~/.emacs.d/files/common-lisp")
-                  (expand-file-name ".sbclrc" "~") t))
-    ('gnu/linux (copy-file
+                  (expand-file-name ".sbclrc" "~")))
+    ('gnu/linux (gx/create-symlink
                  (expand-file-name "dot-sbclrc-linux.lisp"
                                    "~/Work/emacs-config/files/common-lisp")
-                 (expand-file-name ".sbclrc" "~") t)))
+                 (expand-file-name ".sbclrc" "~"))))
   (message "SBCLRC deployed"))
 
+(defun gx/deploy-eclrc ()
+  "Copy reference eclrc, SOURCE, to DESTINATION."
+  (pcase system-type
+    ('gnu/linux (gx/create-symlink
+                 (expand-file-name "dot-eclrc-linux.lisp"
+                                   "~/Work/emacs-config/files/common-lisp")
+                 (expand-file-name ".eclrc" "~"))))
+  (message "ECLRC deployed"))
+
+
 (if (eq system-type 'gnu/linux) (gx/deploy-config))
+
+(when (eq system-type 'gnu/linux)
+  (gx/deploy-sbclrc)
+  (gx/deploy-eclrc))
 
 
 
