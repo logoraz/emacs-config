@@ -203,8 +203,8 @@
          (sly-mode  . gx/sly-completions)
          (sly-mrepl-mode  . gx/register-mrepl-frame))
   :custom
-  (inferior-lisp-program (executable-find "sbcl")
-                         "Set default lisp to Steel Bank Common Lisp.")
+  (sly-default-lisp 'sbcl
+                    "Set default lisp to Steel Bank Common Lisp.")
   :config
   ;; Disable Sylvester the cat
   (setq sly-mrepl-pop-sylvester nil)
@@ -217,7 +217,8 @@
   ;; Invoke SLY with a negative prefix argument, M-- M-x sly,
   ;; and you can select a program from that list.
   (setq sly-lisp-implementations
-        `((sbcl (,(executable-find "sbcl")))))
+        '((sbcl ("vend" "repl" "sbcl") :coding-system utf-8-unix)
+          (ecl  ("vend" "repl" "ecl")  :coding-system utf-8-unix)))
 
   ;; Ensure history file exists
   (let ((history-file (expand-file-name "var/sly/mrepl-history"
